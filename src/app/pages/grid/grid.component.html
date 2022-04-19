@@ -1,14 +1,48 @@
-  
-  <div #contenedor class="categories" [style.width]="option" cdkDropListGroup> 
-      <ng-container *ngFor="let item of items;let i=index">
-          <div class="categories-item" cdkDropList 
-      cdkDropListOrientation="horizontal"
-      [cdkDropListData]="{item:item,index:i}" (cdkDropListDropped)="drop($event)" >
-              <div class="inner"  cdkDrag>
-          <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-          {{item}}
-          </div>
-          </div>
-      </ng-container>
-  </div>
-  
+<div class="container">
+    <div *ngFor="let semester of table;let i=index;" #contenedor class="table" cdkDropListGroup> 
+        <div class="table-title">{{semester.title}}</div>
+        <ng-container *ngFor="let section of semester.sections;let j=index;">
+            <div class="table-body">
+                <ng-container *ngFor="let disciplina of section.rows;let y=index;">
+                    <div *ngIf="(y % 10) == 0" class="table-header">
+                        <div class="section-title">{{section.name}}</div>
+                        <div class="section-categories">
+                            <div class="header-hour">Horário</div>
+                            <div class="header">Segunda</div>
+                            <div class="header">Terça</div>
+                            <div class="header">Quarta</div>
+                            <div class="header">Quinta</div>
+                            <div class="header">Sexta</div>
+                        </div>
+                    </div>
+                    <div class="categories-hour" *ngIf="(y % 5) == 0">
+                        AB
+                    </div>
+                    <div class="categories-item" cdkDropList cdkDropListOrientation="horizontal"  [cdkDropListData]="{item:disciplina,semesterIndex:i,sectionIndex:j,rowIndex:y}" (cdkDropListDropped)="drop($event)" >
+                        <div class="inner" cdkDragBoundary=".table-body" cdkDrag>
+                            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                            <span *ngIf="disciplina.name">
+                                {{disciplina.name}}
+                            </span>
+                            <span *ngIf="!disciplina.name">
+                                Disciplina vazia
+                            </span>
+                            <mat-icon (click)="addTeacher(disciplina,i,j,y)" class="add">add_circle_outline</mat-icon>
+                            <mat-icon class="handle" cdkDragHandle> drag_handle</mat-icon>
+                        </div>
+                    </div>
+        
+                </ng-container>
+            </div>
+        </ng-container>
+        <div class="selection-pool">
+            <div class="pool-title">Lista de disciplinas</div>
+            <div class="list-pool" cdkDropList [cdkDropListData]="semester.disciplinas">
+                <div [cdkDragDisabled]="item.disabled"  class="inner" *ngFor="let item of semester.disciplinas" cdkDragBoundary=".table" cdkDrag>
+                    <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                    {{item.name}}
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>

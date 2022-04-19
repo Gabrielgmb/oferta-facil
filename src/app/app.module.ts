@@ -7,20 +7,28 @@ import { AppRoutingModule } from './app-routing.module';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select';
 
 import { GridComponent } from './pages/grid/grid.component';
+import { DialogSelect } from './pages/grid/grid.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GridComponent
+    GridComponent,
+    DialogSelect
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     DragDropModule,
-    MatGridListModule
+    MatIconModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
