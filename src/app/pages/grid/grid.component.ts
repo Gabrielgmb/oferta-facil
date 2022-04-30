@@ -38,8 +38,8 @@ export class GridComponent implements OnInit {
       if(!actualItem.item.name){
         this.table[actualItem.semesterIndex].sections[actualItem.sectionIndex].rows[actualItem.rowIndex]= event.previousContainer.data[event.previousIndex];
         this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].hours=this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].hours+2;
-        if(this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].hours==4)
-          this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].disabled=true;
+        //if(this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].hours==4)
+          //this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].disabled=true;
       }
     }else{
       let previousItem = event.previousContainer.data;

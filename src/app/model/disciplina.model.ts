@@ -5,7 +5,8 @@ export class Diciplina{
     teachers:Array<any>;
     room:any;
     vacancy:number;
-    day:number;
-    hour:string;
+    day:any;
+    hour:any;
     hours:number;
+    semester:number;
 }
