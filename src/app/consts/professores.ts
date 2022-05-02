@@ -1,4 +1,4 @@
-export const DICIPLINAS = [
+export const PROFESSORES = [
     {
         id:'0001',
         name: 'Adriano Anunciação Oliveira',

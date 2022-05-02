@@ -1,10 +1,10 @@
 import { Diciplina } from "../model/disciplina.model";
 
 export const DICIPLINAS:Diciplina[] = [
+    //1º Semestre
     {
-        id:'0001',
+        code:'SMD0091',
         name: 'História do Design',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -14,9 +14,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:1
     },
     {
-        id:'0002',
+        code:'SMD0095',
         name: 'Programação I',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -26,9 +25,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:1
     },
     {
-        id:'0003',
+        code:'SMD0094',
         name: 'Introdução a Sistemas e Mídias Digitais ',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:60,
@@ -38,9 +36,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:1
     },
     {
-        id:'0004',
+        code:'SMD0088',
         name: 'Autoração Multimídia I',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -50,9 +47,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:1
     },
     {
-        id:'0005',
+        code:'SMD0089',
         name: 'Desenho I',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -61,10 +57,66 @@ export const DICIPLINAS:Diciplina[] = [
         hours:4,
         semester:1
     },
+    //2º Semestre
     {
-        id:'0006',
+        code:'SMD0107',
+        name: 'Cognição e Tecnologias Digitais',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:2
+    },
+    {
+        code:'SMD0105',
+        name: 'Comunicação visual I',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:2
+    },
+    {
+        code:'SMD0106',
+        name: 'Matemática aplicada à multimídia I',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:2
+    },
+    {
+        code:'SMD0093',
+        name: 'Narrativas multimídia',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:2
+    },
+    {
+        code:'SMD0096',
+        name: 'Programação II',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:2
+    },
+    //3º Semestre
+    {
+        code:'SMD0108',
         name: 'Interação Humano-Computador I',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -74,9 +126,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:3
     },
     {
-        id:'0007',
+        code:'SMD0109',
         name: 'Introd. a Cibercultura',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -86,9 +137,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:3
     },
     {
-        id:'0008',
+        code:'SMD0092',
         name: 'Projeto Integrado I',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -98,9 +148,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:3
     },
     {
-        id:'0009',
+        code:'SMD0097',
         name: 'Autoração Multimídia II',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -110,9 +159,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:3
     },
     {
-        id:'0010',
+        code:'SMD0015',
         name: 'Design de Interfaces Gráficas',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -121,10 +169,88 @@ export const DICIPLINAS:Diciplina[] = [
         hours:4,
         semester:3
     },
+    //4º Semestre
     {
-        id:'0011',
+        code:'SMD0102',
+        name: 'Metodologia de pesquisa científica',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:4
+    },
+    {
+        code:'SMD0030',
+        name: 'Análise e projeto de sistemas',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:4
+    },
+    {
+        code:'SMD0098',
+        name: 'Desenho II',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:4
+    },
+    {
+        code:'SMD0033',
+        name: 'Estrutura de dados',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:4
+    },
+    {
+        code:'SMD0086',
+        name: 'Fotografia digital',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:4
+    },
+    {
+        code:'SMD0037',
+        name: 'Redes de computadores',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:4
+    },
+    {
+        code:'SMD0090',
+        name: 'Semiótica aplicada',
+        teachers:[],
+        room:null,
+        vacancy:30,
+        day:null,
+        hour:null,
+        hours:4,
+        semester:4
+    },
+    //5º Semestre
+    {
+        code:'SMD0099',
         name: 'Design de Som',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -134,9 +260,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0012',
+        code:'SMD0055',
         name: 'Engenharia de Software',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -146,9 +271,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0013',
+        code:'SMD0110',
         name: 'Comunicação Visual II',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -158,9 +282,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0014',
+        code:'SMD0099',
         name: 'Banco de Dados I',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -170,9 +293,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0015',
-        name: 'Lab de Criatividade',
-        disabled:false,
+        code:'SMD0113',
+        name: 'Lab. de criatividade',
         teachers:[],
         room:null,
         vacancy:30,
@@ -182,9 +304,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0016',
+        code:'SMD0130',
         name: 'Design Emocional',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -194,9 +315,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0017',
+        code:'SMD0017',
         name: 'Programação Orientada a Objetos',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:30,
@@ -206,21 +326,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0018',
-        name: 'Modelagem 3D I',
-        disabled:false,
-        teachers:[],
-        room:null,
-        vacancy:25,
-        day:null,
-        hour:null,
-        hours:4,
-        semester:5
-    },
-    {
-        id:'0019',
+        code:'SMD0016',
         name: 'Linguagem Audiovisual',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:25,
@@ -230,9 +337,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0020',
+        code:'SMD0023',
         name: 'Design de Jogos',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:25,
@@ -242,9 +348,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0021',
-        name: 'Concepcao Cenarios e Personagens',
-        disabled:false,
+        code:'SMD0057',
+        name: 'Concepção de cenários e de personagens',
         teachers:[],
         room:null,
         vacancy:30,
@@ -254,9 +359,8 @@ export const DICIPLINAS:Diciplina[] = [
         semester:5
     },
     {
-        id:'0022',
+        code:'SMD0053',
         name: 'Programação pra Jogos',
-        disabled:false,
         teachers:[],
         room:null,
         vacancy:25,

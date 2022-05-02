@@ -1,7 +1,6 @@
 export class Diciplina{
-    id:string;
+    code:string;
     name: string;
-    disabled:boolean;
     teachers:Array<any>;
     room:any;
     vacancy:number;

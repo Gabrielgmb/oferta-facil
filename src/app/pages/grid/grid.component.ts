@@ -10,6 +10,7 @@ import { TableService } from 'src/app/services/table.service';
   styleUrls: ['./grid.component.scss']
 })
 export class GridComponent implements OnInit {
+  hold:Diciplina =new Diciplina();
   table: Table[]=[];
   constructor(
     private dialog: MatDialog,
@@ -32,22 +33,23 @@ export class GridComponent implements OnInit {
      })
    }
   
-  drop(event: CdkDragDrop<any>) {
-    if(event.previousContainer.data.length >1){
-      let actualItem = event.container.data;
-      if(!actualItem.item.name){
-        this.table[actualItem.semesterIndex].sections[actualItem.sectionIndex].rows[actualItem.rowIndex]= event.previousContainer.data[event.previousIndex];
-        this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].hours=this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].hours+2;
-        //if(this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].hours==4)
-          //this.table[actualItem.semesterIndex].disciplinas[event.previousIndex].disabled=true;
-      }
-    }else{
-      let previousItem = event.previousContainer.data;
-      let actualItem = event.container.data;
-      this.table[previousItem.semesterIndex].sections[previousItem.sectionIndex].rows[previousItem.rowIndex]=event.container.data.item;
-      this.table[actualItem.semesterIndex].sections[actualItem.sectionIndex].rows[actualItem.rowIndex]=event.previousContainer.data.item;
-    }
+  switch(event: CdkDragDrop<any>) {
+    let previousItem = event.previousContainer.data;
+    let actualItem = event.container.data;
+    this.table[previousItem.semesterIndex].sections[previousItem.sectionIndex].rows[previousItem.rowIndex]=event.container.data.item;
+    this.table[actualItem.semesterIndex].sections[actualItem.sectionIndex].rows[actualItem.rowIndex]=event.previousContainer.data.item;
     localStorage.setItem('table', JSON.stringify(this.table));
+  }
+
+  grab(diciplina:Diciplina) {
+    this.hold=diciplina;
+  }
+
+  drop(i:number,j:number,y:number) {
+    if(Object.keys(this.hold).length !== 0){
+      this.tableService.addDiciplina(i,j,y,this.hold)
+      this.hold=new Diciplina();
+    }
   }
 
   addTeacher(disciplina:Diciplina,i:number,j:number){

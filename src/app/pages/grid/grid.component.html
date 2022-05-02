@@ -18,8 +18,8 @@
                     <div class="categories-hour" *ngIf="(y % 5) == 0">
                         AB
                     </div>
-                    <div class="categories-item" cdkDropList cdkDropListOrientation="horizontal"  [cdkDropListData]="{item:disciplina,semesterIndex:i,sectionIndex:j,rowIndex:y}" (cdkDropListDropped)="drop($event)" >
-                        <div class="inner" cdkDragBoundary=".table-body" cdkDrag>
+                    <div class="categories-item" cdkDropList cdkDropListOrientation="horizontal"  [cdkDropListData]="{item:disciplina,semesterIndex:i,sectionIndex:j,rowIndex:y}" (cdkDropListDropped)="switch($event)" >
+                        <div (click)="drop(i,j,y)" class="inner" cdkDragBoundary=".table-body" cdkDrag>
                             <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                             <span *ngIf="disciplina.name">
                                 {{disciplina.name}}
@@ -27,7 +27,6 @@
                             <span *ngIf="!disciplina.name">
                                 Disciplina vazia
                             </span>
-                            <mat-icon (click)="addTeacher(disciplina,i,j)" class="add">add_circle_outline</mat-icon>
                             <mat-icon class="handle" cdkDragHandle> drag_handle</mat-icon>
                         </div>
                     </div>
@@ -37,9 +36,8 @@
         </ng-container>
         <div class="selection-pool">
             <div class="pool-title">Lista de disciplinas</div>
-            <div class="list-pool" cdkDropList [cdkDropListData]="semester.disciplinas">
-                <div [cdkDragDisabled]="item.disabled"  class="inner" *ngFor="let item of semester.disciplinas" cdkDragBoundary=".table" cdkDrag>
-                    <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            <div class="list-pool">
+                <div class="inner" (click)="grab(item)" *ngFor="let item of semester.disciplinas">
                     {{item.name}}
                 </div>
             </div>
