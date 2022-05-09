@@ -1,147 +1,93 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Diciplina } from 'src/app/model/disciplina.model';
-import { DICIPLINAS } from 'src/app/consts/diciplinas';
-import { NumberSymbol } from '@angular/common';
+import { Local } from '../model/local.model';
+import { Card } from '../model/card.model';
+import { Turma } from '../model/turma.model';
+import { DICIPLINAS } from '../consts/diciplinas';
+import { TURMAS } from '../consts/turmas';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableService {
   private diciplinas = DICIPLINAS;
-  private table:Array<any>;
+  private turmas = TURMAS;
+  private cards: Array<Card>;
+  private table:Array<Turma>;
   private tableSubject: Subject<any[]>;
-  private simpleTable:Array<Diciplina>;
   constructor() {
     this.tableSubject = new Subject<any[]>();
     this.table = [];
+    this.cards = [];
    }
 
    public init(){
-    const table= localStorage.getItem('table');
-    if (table && table !== 'null' && table !== undefined && table !== 'undefined'&& table && table !== '') {
-        this.table = JSON.parse(table);
-        this.publishTable();
-    }else{
-      //this.simpleTable = new Array(180).fill(new Diciplina());
-      //console.log(this.simpleTable)
-      this.setTable();
+    const cards= localStorage.getItem('cards');
+    if (cards && cards !== 'null' && cards !== undefined && cards !== 'undefined'&& cards && cards !== '') {
+      this.cards = JSON.parse(cards);
     }
+    this.setBaseHourTable();
+    this.setHourTable();
   }
 
-  private setTable() {
-    this.table =[
-      {
-        title:'1º Semestre',
-        disciplinas:[],
-        sections:[
-          {
-            name:'Turma A',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Turma B',
-            rows: new Array(10).fill(new Diciplina())
-          },
-        ],
-      },    
-      {
-        title:'2º Semestre',
-        disciplinas:[],
-        sections:[
-          {
-            name:'Turma A',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Turma B',
-            rows: new Array(10).fill(new Diciplina())
-          },
-        ],
-      }, 
-      {
-        title:'3º Semestre',
-        disciplinas:[],
-        sections:[
-          {
-            name:'Turma A',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Turma B',
-            rows: new Array(10).fill(new Diciplina())
-          },
-        ],
-      }, 
-      {
-        title:'4º Semestre',
-        disciplinas:[],
-        sections:[
-          {
-            name:'Turma A',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Turma B',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Trilha Design Digital',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Trilha Desenvolvimento de Sistemas Web',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Trilha Animação e Audiovisual',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Trilha Jogos',
-            rows: new Array(10).fill(new Diciplina())
-          },
-        ],
-      }, 
-      {
-        title:'5º Semestre',
-        disciplinas:[],
-        sections:[
-          {
-            name:'Turma A',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Turma B',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Trilha Design Digital',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Trilha Desenvolvimento de Sistemas Web',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Trilha Animação e Audiovisual',
-            rows: new Array(10).fill(new Diciplina())
-          },
-          {
-            name:'Trilha Jogos',
-            rows: new Array(10).fill(new Diciplina())
-          },
-        ],
-      }, 
-    ];
-    this.setDisciplinas();
-    this.publishTable();
-  }
+  private setBaseHourTable(){
+    this.table =[];
+    this.turmas.forEach(turma => {
+      turma.shift.forEach((shift:string)=>{
+        let i =0;
+        while (i < turma.days*2) {
+          turma.rows.push({
+            dia: i% turma.days,
+            turno:shift,
+            hora:i< turma.days?'AB':'CD'
+          })
+          i++;
+        }
+      })
 
-  private setDisciplinas(){
-    this.diciplinas.forEach(diciplina => {
-      this.table[diciplina.semester-1].disciplinas.push(diciplina)
+      this.diciplinas.forEach(diciplina => {
+        if(diciplina.semester===turma.semester)
+          turma.card.push(new Card(diciplina,turma.code))
+      });
+      this.table.push(turma); 
     });
+  }
+
+  private setHourTable(){
+    this.cards.forEach((card:Card)=>{
+      
+      const index = this.table.findIndex(turma=>{
+        if(turma.code==card.turma)
+          return true;
+        else
+          return false;
+      });
+      
+      const newCards =this.table[index].card.map((innerCard: Card)=>{
+        if(innerCard.diciplina.code==card.diciplina.code)
+          return  Object.assign({}, card);
+        else
+          return innerCard;
+      });
+      this.table[index].card=newCards;
+
+      const newHours =this.table[index].rows.map((innerData: Local)=>{
+        const result = card.local.some((data:Local)=> data.dia==innerData.dia && data.turno==innerData.turno&& data.hora==innerData.hora);
+        if(result)
+          return Object.assign({}, card);
+        else
+          return innerData;
+      });
+      this.table[index].rows=newHours;
+
+    });
+  }
+
+  private updateTables(){
+    localStorage.setItem('cards', JSON.stringify(this.cards));
+    this.setHourTable();
+    this.publishTable();
   }
 
   private publishTable() {
@@ -156,16 +102,49 @@ export class TableService {
     return this.table;
   }
 
-  public addDiciplina(i:number,j:number,y:number,diciplina:Diciplina){
-    const counts:any = {};
-    this.table[i].sections[j].rows.forEach((item:Diciplina)=>{ 
-      counts[item.code] = (counts[item.code] || 0) + 1; 
+  public addTeacher(card:Card){
+    const index = this.cards.findIndex(innerCard=>{
+      if(innerCard.turma==card.turma&&innerCard.diciplina.code==card.diciplina.code)
+        return true;
+      else
+        return false;
     });
-    console.log(counts)
-    if(Object.keys(this.table[i].sections[j].rows[y]).length === 0){
-      if(counts[diciplina.code]<2 || !counts[diciplina.code])
-        this.table[i].sections[j].rows[y]=diciplina;
+    
+    if(index <0){
+      this.cards.push(card)
+    }else{
+      this.cards[index]=card;
     }
+    this.updateTables();
+  }
+
+  public removeTeacher(){
+
+  }
+
+  public addTime(card:Card){
+    if(card.local.length<card.diciplina.hours/2){
+      console.log('entrou')
+      const index = this.cards.findIndex(innerCard=>{
+        if(innerCard.turma==card.turma&&innerCard.diciplina.code==card.diciplina.code)
+          return true;
+        else
+          return false;
+      });
+      if(index <0){
+        this.cards.push(card)
+      }else{
+        this.cards[index]=card;
+      }
+    }
+    this.updateTables();
+  }
+
+  public changeTime(){
+
+  }
+
+  public addLocation(){
 
   }
 }

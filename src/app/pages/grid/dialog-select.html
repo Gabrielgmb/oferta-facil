@@ -1,16 +1,15 @@
-<h1 mat-dialog-title>Hi {{data.name}}</h1>
 <div mat-dialog-content>
-  <p>What's your favorite animal?</p>
+  <p>Escolher professor</p>
   <mat-form-field appearance="fill">
-    <mat-label>Favorite food</mat-label>
-    <mat-select>
-      <mat-option>
-        teste
+    <mat-label>Nome do professor</mat-label>
+    <mat-select [(value)]="selected">
+      <mat-option [value]="teacher" *ngFor="let teacher of teachers">
+        {{teacher.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="selected" cdkFocusInitial>Ok</button>
 </div>
