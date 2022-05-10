@@ -41,17 +41,19 @@ export class GridComponent implements OnInit {
   switch(event: CdkDragDrop<any>) {
     let previousItem = event.previousContainer.data;
     let actualItem = event.container.data;
-    //this.table[previousItem.semesterIndex].sections[previousItem.sectionIndex].rows[previousItem.rowIndex]=event.container.data.item;
-    //this.table[actualItem.semesterIndex].sections[actualItem.sectionIndex].rows[actualItem.rowIndex]=event.previousContainer.data.item;
+    if(actualItem.dia)
+      this.tableService.changeEmptyTime(previousItem,actualItem);
+    else
+       this.tableService.changeTime(previousItem,actualItem)
   }
 
   grab(card:Card) {
     this.hold = card;
   }
 
-  drop(time:any) {
-    if(this.hold){
-      this.hold.local.push(time);
+  drop(data:any,turma:any) {
+    if(this.hold && this.hold.turma==turma && !data.turma){
+      this.hold.local.push(data)
       this.tableService.addTime(this.hold);
       this.hold = undefined;
     }

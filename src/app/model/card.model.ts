@@ -2,6 +2,7 @@ import { Local } from "./local.model";
 import { Diciplina } from "./disciplina.model";
 import { Professor } from "./professor.model";
 export class Card{
+    id:string;
     diciplina:Diciplina;
     professores:Array<Professor>;
     local:Array<Local>;

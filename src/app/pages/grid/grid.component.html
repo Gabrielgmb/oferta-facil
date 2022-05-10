@@ -19,11 +19,14 @@
                 <div class="categories-hour" *ngIf="(j % 10) == 5">
                     CD
                 </div>
-                <div class="categories-item" cdkDropList cdkDropListOrientation="horizontal"  [cdkDropListData]="{item:card,sectionIndex:i,rowIndex:j}" (cdkDropListDropped)="switch($event)" >
-                    <div class="inner" (click)="drop(card)" cdkDragBoundary=".table-body" cdkDrag>
+                <div class="categories-item" cdkDropList cdkDropListOrientation="horizontal"  [cdkDropListData]="card" (cdkDropListDropped)="switch($event)" >
+                    <div class="inner" (click)="drop(card,turma.code)" [cdkDragDisabled]="!card.diciplina" cdkDragBoundary=".table-body" cdkDrag>
                         <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                         <span *ngIf="card.diciplina">
                             {{card.diciplina.name}}
+                        </span>
+                        <span *ngFor="let professor of card.professores">
+                            {{professor.name}}
                         </span>
                         <span *ngIf="!card.diciplina">
                             Disciplina vazia

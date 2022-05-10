@@ -14,10 +14,12 @@ export class TableService {
   private diciplinas = DICIPLINAS;
   private turmas = TURMAS;
   private cards: Array<Card>;
+  private baseTable:any;
   private table:Array<Turma>;
   private tableSubject: Subject<any[]>;
   constructor() {
     this.tableSubject = new Subject<any[]>();
+    this.baseTable = [];
     this.table = [];
     this.cards = [];
    }
@@ -32,7 +34,6 @@ export class TableService {
   }
 
   private setBaseHourTable(){
-    this.table =[];
     this.turmas.forEach(turma => {
       turma.shift.forEach((shift:string)=>{
         let i =0;
@@ -45,43 +46,44 @@ export class TableService {
           i++;
         }
       })
-
       this.diciplinas.forEach(diciplina => {
         if(diciplina.semester===turma.semester)
-          turma.card.push(new Card(diciplina,turma.code))
+          turma.card.push(new Card(diciplina,turma.code,))
       });
-      this.table.push(turma); 
+      this.baseTable.push(turma); 
     });
   }
 
   private setHourTable(){
-    this.cards.forEach((card:Card)=>{
-      
-      const index = this.table.findIndex(turma=>{
-        if(turma.code==card.turma)
-          return true;
+    const base = JSON.parse(JSON.stringify(this.baseTable));
+    this.table = base.map((turma:Turma)=>{
+      turma.card =turma.card.map((innerCard: Card)=>{
+        let card = this.cards.find((card:Card)=>card.turma==turma.code &&innerCard.diciplina.code==card.diciplina.code);
+        if(card)
+          return  JSON.parse(JSON.stringify(card));
         else
-          return false;
+          return innerCard
       });
       
-      const newCards =this.table[index].card.map((innerCard: Card)=>{
-        if(innerCard.diciplina.code==card.diciplina.code)
-          return  Object.assign({}, card);
+      turma.rows =turma.rows.map((innerData: Local)=>{
+        let card = this.cards.find((card:Card)=>{
+          if(card.turma==turma.code){
+            const result = card.local.some((data:Local)=> data.dia==innerData.dia && data.turno==innerData.turno&& data.hora==innerData.hora);
+            if(result){
+              return card;
+            }else
+              return false
+          }else
+            return false
+        });
+        if(card)
+          return JSON.parse(JSON.stringify(card));
         else
-          return innerCard;
+          return innerData
       });
-      this.table[index].card=newCards;
-
-      const newHours =this.table[index].rows.map((innerData: Local)=>{
-        const result = card.local.some((data:Local)=> data.dia==innerData.dia && data.turno==innerData.turno&& data.hora==innerData.hora);
-        if(result)
-          return Object.assign({}, card);
-        else
-          return innerData;
-      });
-      this.table[index].rows=newHours;
-
+      return turma;
     });
+
   }
 
   private updateTables(){
@@ -123,8 +125,7 @@ export class TableService {
   }
 
   public addTime(card:Card){
-    if(card.local.length<card.diciplina.hours/2){
-      console.log('entrou')
+    if(card.local.length<=card.diciplina.hours/2){
       const index = this.cards.findIndex(innerCard=>{
         if(innerCard.turma==card.turma&&innerCard.diciplina.code==card.diciplina.code)
           return true;
@@ -140,8 +141,41 @@ export class TableService {
     this.updateTables();
   }
 
-  public changeTime(){
+  public changeTime(oldCard:Card,newCard:Card){
+    this.cards=this.cards.map((card:Card)=>{
+      if(card.turma==oldCard.turma&&card.diciplina.code==oldCard.diciplina.code){
+        card.local = card.local.map((local:Local)=>{
+          if(oldCard.local[0].dia==local.dia && oldCard.local[0].turno==local.turno && oldCard.local[0].hora==local.hora){
+            return newCard.local[0];
+          }else
+            return local;
+        });
+      }else if(card.turma==newCard.turma&&card.diciplina.code==newCard.diciplina.code){
+        card.local = card.local.map((local:Local)=>{
+          if(newCard.local[0].dia==local.dia && newCard.local[0].turno==local.turno&& newCard.local[0].hora==local.hora){
+            return oldCard.local[0];
+          }else
+            return local;
+        });
+      }
+      return card;
+    })
+    this.updateTables();
+  }
 
+  public changeEmptyTime(card:Card,date:Local){
+    this.cards=this.cards.map((innerCard:Card)=>{
+      if(innerCard.turma==card.turma&&innerCard.diciplina.code==card.diciplina.code){
+        innerCard.local = innerCard.local.map((local:Local)=>{
+          if(card.local[0].dia==local.dia && card.local[0].turno==local.turno && card.local[0].hora==local.hora){
+            return date;
+          }else
+            return local;
+        });
+      }
+      return innerCard;
+    });
+    this.updateTables();
   }
 
   public addLocation(){
