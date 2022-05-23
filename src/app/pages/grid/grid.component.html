@@ -1,52 +1,94 @@
 <div class="container">
-    <div *ngFor="let turma of table;let i=index;" #contenedor class="table" cdkDropListGroup> 
-        <div class="table-body">
-            <ng-container *ngFor="let card of turma.rows;let j=index;">
-                <div *ngIf="j == 0" class="table-header">
-                    <div class="section-title">{{semesters[turma.semester]}} - {{turma.name}}</div>
-                    <div class="section-categories">
-                        <div class="header-hour">Horário</div>
-                        <div class="header">Segunda</div>
-                        <div class="header">Terça</div>
-                        <div class="header">Quarta</div>
-                        <div class="header">Quinta</div>
-                        <div class="header">Sexta</div>
+    <div class="card-body">
+        <mat-tab-group mat-align-tabs="center">
+            <mat-tab label="Horario/Diurno">
+                <div *ngFor="let turma of table.daytime;let i=index;" class="table" #contenedor cdkDropListGroup> 
+                    <div class="table-header">
+                        <div class="header-title">{{semesters[turma.semester]}} - {{turma.name}}</div>
+                        <div class="header-days">
+                            <div class="day hour">Horário</div>
+                            <div class="day">Segunda</div>
+                            <div class="day">Terça</div>
+                            <div class="day">Quarta</div>
+                            <div class="day">Quinta</div>
+                            <div class="day">Sexta</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <ng-container *ngFor="let date of turma.rows;let j=index;">
+                            <div class="hour" *ngIf="(j % 5) == 0">
+                                {{hours[date.hora]}}
+                            </div>
+                            <div class="categories-item" cdkDropList cdkDropListOrientation="horizontal"  [cdkDropListData]="date" (cdkDropListDropped)="switch($event)" >
+                                <div class="inner" (click)="drop(date,turma.code)" [cdkDragDisabled]="!date.card" cdkDragBoundary=".table-body" cdkDrag>
+                                    <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                                    <div *ngIf="date.card">
+                                        <span>
+                                            {{date.card.diciplina.name}}
+                                        </span>
+                                        <span *ngFor="let professor of date.card.professores">
+                                            {{professor.name}}
+                                        </span>
+                                    </div>
+                                    <span *ngIf="!date.card">
+                                        Disciplina vazia
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div class="selection-pool">
+                        <div class="pool-title">Lista de disciplinas</div>
+                        <div class="list-pool">
+                            <div class="inner" (click)="grab(card)" *ngFor="let card of turma.card">
+                                {{card.diciplina.name}}
+                                <span *ngFor="let professor of card.professores">
+                                    {{professor.name}}
+                                </span>
+                                <mat-icon (click)="addTeacher(card)">add_circle_outline</mat-icon>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </mat-tab>
+            <mat-tab label="Horario/Noturno">
+            </mat-tab>
+            <mat-tab label="Conflitos">
+            </mat-tab>
+            <mat-tab label="Professores">
+                <div *ngFor="let table of table.teachers;let i=index;" class="table" #contenedor cdkDropListGroup> 
+                    <div class="table-header">
+                        <div class="header-title">{{table.professor.name}}</div>
+                        <div class="header-days">
+                            <div class="day hour">Horário</div>
+                            <div class="day">Segunda</div>
+                            <div class="day">Terça</div>
+                            <div class="day">Quarta</div>
+                            <div class="day">Quinta</div>
+                            <div class="day">Sexta</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <ng-container *ngFor="let diciplina of table.horas;let j=index;">
+                            <div class="hour" *ngIf="(j % 5) == 0">
+                                2h
+                            </div>
+                            <div class="categories-item" >
+                                <div class="inner">
+                                    <span>
+                                        {{diciplina}}
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-container>
                     </div>
                 </div>
-                <div class="categories-hour" *ngIf="(j % 10) == 0">
-                    AB
-                </div>
-                <div class="categories-hour" *ngIf="(j % 10) == 5">
-                    CD
-                </div>
-                <div class="categories-item" cdkDropList cdkDropListOrientation="horizontal"  [cdkDropListData]="card" (cdkDropListDropped)="switch($event)" >
-                    <div class="inner" (click)="drop(card,turma.code)" [cdkDragDisabled]="!card.diciplina" cdkDragBoundary=".table-body" cdkDrag>
-                        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-                        <span *ngIf="card.diciplina">
-                            {{card.diciplina.name}}
-                        </span>
-                        <span *ngFor="let professor of card.professores">
-                            {{professor.name}}
-                        </span>
-                        <span *ngIf="!card.diciplina">
-                            Disciplina vazia
-                        </span>
-                    </div>
-                </div>
-    
-            </ng-container>
-            <div class="selection-pool">
-                <div class="pool-title">Lista de disciplinas</div>
-                <div class="list-pool">
-                    <div class="inner" (click)="grab(card)" *ngFor="let card of turma.card">
-                        {{card.diciplina.name}}
-                        <span *ngFor="let professor of card.professores">
-                            {{professor.name}}
-                        </span>
-                        <mat-icon (click)="addTeacher(card)">add_circle_outline</mat-icon>
-                    </div>
-                </div>
-            </div> 
-        </div>
+            </mat-tab>
+            <mat-tab label="Salas">
+            </mat-tab>
+        </mat-tab-group>
     </div>
+
+
 </div>

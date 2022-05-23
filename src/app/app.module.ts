@@ -10,15 +10,20 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { GridComponent } from './pages/grid/grid.component';
 import { DialogSelect } from './pages/grid/grid.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GridComponent,
-    DialogSelect
+    DialogSelect,
+    SidebarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +33,8 @@ import { DialogSelect } from './pages/grid/grid.component';
     MatIconModule,
     MatDialogModule,
     MatGridListModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

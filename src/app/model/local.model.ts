@@ -1,6 +1,6 @@
 export class Local{
     dia:number;
     hora:number;
-    turno:string;
+    turno:number;
     sala:string;
 }

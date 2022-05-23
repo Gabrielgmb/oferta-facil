@@ -9,6 +9,7 @@ export class Card{
     turma:string;
 
     constructor(diciplina: Diciplina, turma:string){
+        this.id = turma+diciplina.code;
         this.diciplina = diciplina;
         this.turma = turma;
         this.professores =[];

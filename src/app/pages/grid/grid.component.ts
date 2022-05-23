@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop} from "@angular/cdk/drag-drop";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { Diciplina } from 'src/app/model/disciplina.model';
 import { Turma } from 'src/app/model/turma.model';
 import { Card } from 'src/app/model/card.model';
+import { Table } from 'src/app/model/table.model';
 import { TableService } from 'src/app/services/table.service';
 import { PROFESSORES } from 'src/app/consts/professores'; 
-import { SEMESTRES } from 'src/app/consts/consts';
+import { SEMESTRES, HORARIO } from 'src/app/consts/consts';
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
@@ -14,8 +14,9 @@ import { SEMESTRES } from 'src/app/consts/consts';
 })
 export class GridComponent implements OnInit {
   hold:any;
-  table: Turma[]=[];
+  table: Table;
   semesters=SEMESTRES;
+  hours=HORARIO;
   constructor(
     private dialog: MatDialog,
     private tableService :TableService
@@ -40,11 +41,13 @@ export class GridComponent implements OnInit {
   
   switch(event: CdkDragDrop<any>) {
     let previousItem = event.previousContainer.data;
-    let actualItem = event.container.data;
-    if(actualItem.dia)
+    let actualItem = event.container.data; 
+    console.log(previousItem,actualItem)  
+    if(!actualItem.card)
       this.tableService.changeEmptyTime(previousItem,actualItem);
     else
-       this.tableService.changeTime(previousItem,actualItem)
+      if(actualItem.card.id!==previousItem.card.id)
+        this.tableService.changeTime(previousItem,actualItem)
   }
 
   grab(card:Card) {
@@ -52,8 +55,9 @@ export class GridComponent implements OnInit {
   }
 
   drop(data:any,turma:any) {
-    if(this.hold && this.hold.turma==turma && !data.turma){
-      this.hold.local.push(data)
+    if(this.hold && this.hold.turma==turma && !data.card){
+      delete data['card'];
+      this.hold.local.push(data);
       this.tableService.addTime(this.hold);
       this.hold = undefined;
     }
