@@ -1,0 +1,101 @@
+<div class="container">
+    <div class="card-body">
+        <mat-tab-group mat-align-tabs="center">
+            <mat-tab label="Horario/Diurno">
+                <div *ngFor="let turma of table.daytime;let i=index;" class="table" #contenedor cdkDropListGroup> 
+                    <div class="table-header">
+                        <div class="header-title">{{semesters[turma.semester]}} - {{turma.name}}</div>
+                        <div class="header-days">
+                            <div class="day hour">Horário</div>
+                            <div class="day">Segunda</div>
+                            <div class="day">Terça</div>
+                            <div class="day">Quarta</div>
+                            <div class="day">Quinta</div>
+                            <div class="day">Sexta</div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <ng-container *ngFor="let date of turma.rows;let j=index;">
+                            <div class="hour" *ngIf="(j % 5) == 0">
+                                {{hours[date.hora]}}
+                            </div>
+                            <div class="categories-item" cdkDropList cdkDropListOrientation="horizontal"  [cdkDropListData]="date" (cdkDropListDropped)="switch($event)" >
+                                <div class="inner" (click)="drop(date,turma.code)" [cdkDragDisabled]="!date.card" cdkDragBoundary=".table-body" cdkDrag>
+                                    <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                                    <div *ngIf="date.card">
+                                        <span>
+                                            {{date.card.diciplina.name}}
+                                        </span>
+                                        <span *ngFor="let professor of date.card.professores">
+                                            {{professor.name}}
+                                        </span>
+                                    </div>
+                                    <span *ngIf="!date.card">
+                                        Disciplina vazia
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div class="selection-pool">
+                        <div class="pool-title">Lista de disciplinas</div>
+                        <div class="list-pool">
+                            <div class="inner" (click)="grab(card)" *ngFor="let card of turma.card">
+                                {{card.diciplina.name}}
+                                <span *ngFor="let professor of card.professores">
+                                    {{professor.name}}
+                                </span>
+                                <mat-icon (click)="addTeacher(card)">add_circle_outline</mat-icon>
+                                <mat-icon *ngIf="card.professores.length>0" (click)="removeTeacher(card)">remove_circle_outline</mat-icon>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </mat-tab>
+            <mat-tab label="Horario/Noturno">
+            </mat-tab>
+            <mat-tab label="Todos Professores">
+                <table>
+                    <tr *ngFor="let table of table.allTeachers">
+                        <td>
+                            {{table.professor.name}}
+                        </td>
+                        <td *ngFor="let diciplina of table.diciplinas">
+                            {{diciplina.name}}
+                        </td>
+                    </tr>
+                </table>
+            </mat-tab>
+            <mat-tab label="Professores Ativos">
+                <div class="professores-div">
+                    <table *ngFor="let table of table.teachers">
+                        <caption>{{table.professor.name}}</caption>
+                        <tr>
+                            <th>Horários</th>
+                            <th>Segunda</th>
+                            <th>Terça</th>
+                            <th>Quarta</th>
+                            <th>Quinta</th>
+                            <th>Sexta</th>
+                        </tr>
+                        <tr *ngFor="let hora of table.horas; let i = index">
+                            <td>
+                                {{hours[i]}}
+                            </td>
+                            <td [ngClass]="{'conflito': diciplinas.length>1}" *ngFor="let diciplinas of hora">
+                                <p *ngFor="let diciplina of diciplinas">
+                                    {{diciplina}}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </mat-tab>
+            <mat-tab label="Salas">
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+
+</div>
