@@ -12,11 +12,14 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
 
 import { GridComponent } from './pages/grid/grid.component';
 import { DialogSelect } from './pages/grid/grid.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { CadastrosComponent } from './pages/cadastros/cadastros.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     GridComponent,
     DialogSelect,
     SidebarComponent,
-    NavbarComponent
+    NavbarComponent,
+    CadastrosComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     MatGridListModule,
     MatSelectModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

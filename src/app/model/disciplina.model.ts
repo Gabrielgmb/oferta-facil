@@ -4,4 +4,5 @@ export class Diciplina{
     vacancy:number;
     hours:number;
     semester:number;
+    
 }
