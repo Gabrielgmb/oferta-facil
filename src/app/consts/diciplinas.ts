@@ -5,11 +5,7 @@ export const DICIPLINAS:Diciplina[] = [
     {
         code:'SMD0091',
         name: 'História do Design',
-        
-        
         vacancy:30,
-        
-        
         hours:4,
         semester:1
     },
