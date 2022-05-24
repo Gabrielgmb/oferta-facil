@@ -11,6 +11,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import {MatTableModule} from '@angular/material/table';
 
 import { GridComponent } from './pages/grid/grid.component';
 import { DialogSelect } from './pages/grid/grid.component';
@@ -34,7 +35,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     MatDialogModule,
     MatGridListModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,12 +9,12 @@ import { TURMAS } from '../consts/turmas';
 import { Table } from '../model/table.model';
 import { Professor } from '../model/professor.model';
 import { HORARIO } from '../consts/consts';
+import { PROFESSORES } from '../consts/professores'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableService {
-  private diciplinas = DICIPLINAS;
   private turmas = TURMAS;
   private cards: Array<Card>;
   private baseTable:Array<any>;
@@ -23,7 +23,7 @@ export class TableService {
   constructor() {
     this.tableSubject = new Subject<Table>();
     this.baseTable = [];
-    this.table = {daytime:[],nocturnal:[],teachers:[]};
+    this.table = {daytime:[],nocturnal:[],teachers:[],allTeachers:[]};
     this.cards = [];
    }
 
@@ -35,6 +35,7 @@ export class TableService {
     this.setBaseHourTable();
     this.setDaytimeTable();
     this.setTeacherTable();
+    this.setAllTeacherTable();
   }
 
   private setBaseHourTable(){
@@ -50,7 +51,7 @@ export class TableService {
           i++;
         }
       })
-      this.diciplinas.forEach(diciplina => {
+      DICIPLINAS.forEach(diciplina => {
         if(diciplina.semester===turma.semester)
           turma.card.push(new Card(diciplina,turma.code))
       });
@@ -118,28 +119,45 @@ export class TableService {
   }
 
   private setTeacherTable(){
+    this.table.teachers=[];
     this.cards.forEach((card:Card)=>{
       card.professores.forEach((professor:Professor)=>{
         const index = this.table.teachers.findIndex(data=>data.professor.id==professor.id);
         if(index <0){
-          let base = new Array(HORARIO.length*5).fill('');
+          let base:any = [];
+          HORARIO.forEach((horas:any)=>{
+            base.push([[],[],[],[],[]])
+          });
           card.local.forEach((local:Local)=>{
-            console.log(local)
-            base[local.dia+(local.hora*5)] = card.diciplina.name;
+            base[local.hora][local.dia].push(card.diciplina.name);
           });
           this.table.teachers.push({professor:professor,horas:base})
         }else{
           card.local.forEach((local:Local)=>{
-            this.table.teachers[index].horas[local.dia+(local.hora*local.turno)] = card.diciplina.name;
+            this.table.teachers[index].horas[local.hora][local.dia].push(card.diciplina.name);
           });
         }
       });
     });
   }
 
+  private setAllTeacherTable(){
+    this.table.allTeachers=[];
+    PROFESSORES.forEach((innerProfessor:Professor)=>{
+      let data:any={professor:innerProfessor,diciplinas:[]};
+      this.cards.forEach((card:Card)=>{
+        if(card.professores.some((professor:Professor)=> professor.id==innerProfessor.id)){
+          data.diciplinas.push(card.diciplina);
+        }
+      });
+      this.table.allTeachers.push(data)
+    });
+  }
+
   private updateTables(turma:string){
     localStorage.setItem('cards', JSON.stringify(this.cards));
-    this.updateHourTable(turma)
+    this.updateHourTable(turma);
+    this.setTeacherTable();
     this.publishTable();
   }
 

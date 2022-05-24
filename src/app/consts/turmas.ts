@@ -5,7 +5,7 @@ export const TURMAS:any[] = [
         card:[],
         rows:[],
         code:'TSMD0101',
-        shift:[0,1]
+        shift:[1]
       },
       {
         name:'Turma B',

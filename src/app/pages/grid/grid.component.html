@@ -54,35 +54,41 @@
             </mat-tab>
             <mat-tab label="Horario/Noturno">
             </mat-tab>
-            <mat-tab label="Conflitos">
+            <mat-tab label="Todos Professores">
+                <table>
+                    <tr *ngFor="let table of table.allTeachers">
+                        <td>
+                            {{table.professor.name}}
+                        </td>
+                        <td *ngFor="let diciplina of table.diciplinas">
+                            {{diciplina.name}}
+                        </td>
+                    </tr>
+                </table>
             </mat-tab>
-            <mat-tab label="Professores">
-                <div *ngFor="let table of table.teachers;let i=index;" class="table" #contenedor cdkDropListGroup> 
-                    <div class="table-header">
-                        <div class="header-title">{{table.professor.name}}</div>
-                        <div class="header-days">
-                            <div class="day hour">Horário</div>
-                            <div class="day">Segunda</div>
-                            <div class="day">Terça</div>
-                            <div class="day">Quarta</div>
-                            <div class="day">Quinta</div>
-                            <div class="day">Sexta</div>
-                        </div>
-                    </div>
-                    <div class="table-body">
-                        <ng-container *ngFor="let diciplina of table.horas;let j=index;">
-                            <div class="hour" *ngIf="(j % 5) == 0">
-                                2h
-                            </div>
-                            <div class="categories-item" >
-                                <div class="inner">
-                                    <span>
-                                        {{diciplina}}
-                                    </span>
-                                </div>
-                            </div>
-                        </ng-container>
-                    </div>
+            <mat-tab label="Professores Ativos">
+                <div class="professores-div">
+                    <table *ngFor="let table of table.teachers">
+                        <caption>{{table.professor.name}}</caption>
+                        <tr>
+                            <th>Horários</th>
+                            <th>Segunda</th>
+                            <th>Terça</th>
+                            <th>Quarta</th>
+                            <th>Quinta</th>
+                            <th>Sexta</th>
+                        </tr>
+                        <tr *ngFor="let hora of table.horas; let i = index">
+                            <td>
+                                {{hours[i]}}
+                            </td>
+                            <td [ngClass]="{'conflito': diciplinas.length>1}" *ngFor="let diciplinas of hora">
+                                <p *ngFor="let diciplina of diciplinas">
+                                    {{diciplina}}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </mat-tab>
             <mat-tab label="Salas">

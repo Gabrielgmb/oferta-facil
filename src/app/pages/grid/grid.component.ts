@@ -17,6 +17,7 @@ export class GridComponent implements OnInit {
   table: Table;
   semesters=SEMESTRES;
   hours=HORARIO;
+  displayedColumns: string[] = ['Segunda', 'Terca', 'Quarta', 'Quinta','Sexta'];
   constructor(
     private dialog: MatDialog,
     private tableService :TableService
