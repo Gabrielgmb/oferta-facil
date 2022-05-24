@@ -18,6 +18,7 @@ export class TableService {
   private turmas = TURMAS;
   private cards: Array<Card>;
   private baseTable:Array<any>;
+  private baseTeacherTable:Array<any>;
   private table:Table;
   private tableSubject: Subject<Table>;
   constructor() {
@@ -33,9 +34,8 @@ export class TableService {
       this.cards = JSON.parse(cards);
     }
     this.setBaseHourTable();
-    this.setDaytimeTable();
+    this.setBaseTeacherTable();
     this.setTeacherTable();
-    this.setAllTeacherTable();
   }
 
   private setBaseHourTable(){
@@ -57,6 +57,13 @@ export class TableService {
       });
       this.baseTable.push(turma);
     });
+    this.setDaytimeTable();
+  }
+  private setBaseTeacherTable(){
+    this.baseTeacherTable =PROFESSORES.map((professor:Professor)=>{
+      return {professor:professor,diciplinas:[]}
+    });
+    this.setAllTeacherTable();
   }
 
   private setDaytimeTable(){
@@ -142,22 +149,22 @@ export class TableService {
   }
 
   private setAllTeacherTable(){
-    this.table.allTeachers=[];
-    PROFESSORES.forEach((innerProfessor:Professor)=>{
-      let data:any={professor:innerProfessor,diciplinas:[]};
+    const base = JSON.parse(JSON.stringify(this.baseTeacherTable));
+    this.table.allTeachers = base.map((item:any)=>{
       this.cards.forEach((card:Card)=>{
-        if(card.professores.some((professor:Professor)=> professor.id==innerProfessor.id)){
-          data.diciplinas.push(card.diciplina);
+        if(card.professores.some((professor:Professor)=> professor.id==item.professor.id)){
+          item.diciplinas.push(card.diciplina);
         }
       });
-      this.table.allTeachers.push(data)
+      return item;
     });
   }
 
-  private updateTables(turma:string){
+  private updateTables(card:Card){
     localStorage.setItem('cards', JSON.stringify(this.cards));
-    this.updateHourTable(turma);
+    this.updateHourTable(card.turma);
     this.setTeacherTable();
+    this.setAllTeacherTable();
     this.publishTable();
   }
 
@@ -173,18 +180,14 @@ export class TableService {
     return this.table;
   }
 
-  public addTeacher(card:Card){
+  public changeTeacher(card:Card){
     const index = this.cards.findIndex(innerCard=>innerCard.id==card.id);
     if(index <0){
       this.cards.push(card)
     }else{
       this.cards[index]=card;
     }
-    this.updateTables(card.turma);
-  }
-
-  public removeTeacher(){
-
+    this.updateTables(card);
   }
 
   public addTime(card:Card){
@@ -196,7 +199,7 @@ export class TableService {
         this.cards[index]=card;
       }
     }
-    this.updateTables(card.turma);
+    this.updateTables(card);
   }
 
   public changeTime(oldItem:any,newItem:any){
@@ -226,7 +229,7 @@ export class TableService {
       }
       return card;
     })
-    this.updateTables(oldItem.card.turma);
+    this.updateTables(oldItem.card);
   }
 
   public changeEmptyTime(oldItem:any,newItem:any){
@@ -245,7 +248,7 @@ export class TableService {
       };
       return card;
     })
-    this.updateTables(oldItem.card.turma);
+    this.updateTables(oldItem.card);
   }
 
   public addLocation(){

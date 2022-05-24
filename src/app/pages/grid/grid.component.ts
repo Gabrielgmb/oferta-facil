@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CdkDragDrop} from "@angular/cdk/drag-drop";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { Turma } from 'src/app/model/turma.model';
 import { Card } from 'src/app/model/card.model';
 import { Table } from 'src/app/model/table.model';
 import { TableService } from 'src/app/services/table.service';
@@ -73,7 +72,22 @@ export class GridComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         card.professores.push(result)
-        this.tableService.addTeacher(card)
+        this.tableService.changeTeacher(card)
+      }
+    });
+  }
+
+  removeTeacher(card:Card){
+    const dialogRef = this.dialog.open(DialogSelect, {
+      width: '250px',
+      data: card.professores,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        const index = card.professores.findIndex(professor=>professor.id==result.id);
+        card.professores.splice(index,1);
+        this.tableService.changeTeacher(card)
       }
     });
   }
@@ -87,8 +101,10 @@ export class DialogSelect {
   teachers=PROFESSORES;
   selected:any;
   constructor(
-    public dialogRef: MatDialogRef<DialogSelect>
-  ) {}
+    public dialogRef: MatDialogRef<DialogSelect>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

@@ -47,6 +47,7 @@
                                     {{professor.name}}
                                 </span>
                                 <mat-icon (click)="addTeacher(card)">add_circle_outline</mat-icon>
+                                <mat-icon *ngIf="card.professores.length>0" (click)="removeTeacher(card)">remove_circle_outline</mat-icon>
                             </div>
                         </div>
                     </div> 

@@ -2,8 +2,13 @@
   <p>Escolher professor</p>
   <mat-form-field appearance="fill">
     <mat-label>Nome do professor</mat-label>
-    <mat-select [(value)]="selected">
+    <mat-select [(value)]="selected" *ngIf="!data">
       <mat-option [value]="teacher" *ngFor="let teacher of teachers">
+        {{teacher.name}}
+      </mat-option>
+    </mat-select>
+    <mat-select [(value)]="selected" *ngIf="data">
+      <mat-option [value]="teacher" *ngFor="let teacher of data">
         {{teacher.name}}
       </mat-option>
     </mat-select>
