@@ -20,7 +20,7 @@
                                 </td>
                             </ng-container>
 
-                            <td class="categories-item" cdkDropList cdkDropListOrientation="horizontal" [ngClass]="{'move': date.card,'empty':!date.card}" [cdkDropListData]="date" (cdkDropListDropped)="switch($event)" *ngFor="let date of rows">
+                            <td class="categories-item" cdkDropList cdkDropListOrientation="horizontal" [ngClass]="{'move': date.card,'empty':!date.card,'empty-active': hold && hold.turma ==turma.code&&!date.card}" [cdkDropListData]="date" (cdkDropListDropped)="switch($event)" *ngFor="let date of rows">
                                 <div class="inner" (click)="drop(date,turma.code)" [cdkDragDisabled]="!date.card" cdkDragBoundary=".table-boundary" cdkDrag>
                                     <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                                     <div *ngIf="date.card">
@@ -28,9 +28,6 @@
                                         <h5 *ngFor="let professor of date.card.professores" class="name_teacher">{{professor.name}}</h5>
                                         <h5 class="vacancy_card">({{date.card.diciplina.vacancy}})</h5>
                                     </div>
-                                    <span *ngIf="!date.card">
-                                        Disciplina vazia
-                                    </span>
                                 </div>
                             </td>
                         </tr>
@@ -55,7 +52,6 @@
                         </div>
                     </div> 
                     <div [ngClass]="{'backdrop': hold && hold.turma !=turma.code}">
-
                     </div>
                 </div>
             </mat-tab>
@@ -64,11 +60,11 @@
             <mat-tab label="Todos Professores">
                 <table class="professor">
                     <tr *ngFor="let table of table.allTeachers">
-                        <td>
+                        <td [class]="table.professor.occupation">
                             {{table.professor.name}}
                         </td>
-                        <td *ngFor="let diciplina of table.diciplinas">
-                            {{diciplina.name}}
+                        <td [class]="diciplina.turno" *ngFor="let diciplina of table.diciplinas">
+                            {{diciplina.diciplina.name}}
                         </td>
                     </tr>
                 </table>

@@ -50,6 +50,7 @@
         margin: 0;
         font-size: 14px;
         margin-bottom: 5px;
+        font-weight: normal;
       }
       .vacancy_card{
         margin: 0;
@@ -57,10 +58,14 @@
       }
     }
   }
-
   .empty{
     background-color: white;   
   }
+  .empty-active:hover{
+    cursor:pointer;
+    background-color: goldenrod;
+  }
+
   .move{
     cursor:move;
   }
@@ -157,11 +162,11 @@
   top: 0;
   bottom: 0;
   background: black;
-  opacity: 0.7;
+  opacity: 0.3;
 }
 
 .cdk-drag-animating {
-transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .cdk-drag-preview {
@@ -169,7 +174,9 @@ transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   min-height: 5rem;
   text-align: center;
   font-size: 14px;
-  background-color: #DDD;    
+  background-color: #DDD;  
+  padding: 5px;
+  border: 1px solid #666;  
   .title_card{
     margin: 0;
     margin-bottom: 10px;
@@ -179,6 +186,10 @@ transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
     font-size: 14px;
     font-weight: normal;
     margin-bottom: 5px;
+  }
+  .vacancy_card{
+    margin: 0;
+    font-size: 14px;
   }
 }
 .professores-div{
@@ -195,7 +206,7 @@ transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
     font-weight: bold;
   }
   td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid #666;
     text-align: center;
     padding: 6px;
     p{
@@ -205,13 +216,27 @@ transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
       margin: 0;
     }
   }
+  .pos{
+    background-color: #b4a7d6;
+  }
+  .gestor{
+    background-color: #93c47d;
+  }
+  .substituto{
+    background-color: #ea9999;
+  }
+  .diurno{
+    background-color: #fce5cd;
+  }
+  .noturno{
+    background-color: #c9daf8;
+  }
+  .ead{
+    background-color: #ead1dc
+  }
   .conflito{
     background-color: lightpink;
   }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  } 
 }
 
 
