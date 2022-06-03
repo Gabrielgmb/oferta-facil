@@ -42,14 +42,16 @@ export class TableService {
     this.turmas.forEach(turma => {
       turma.shift.forEach((shift:number)=>{
         let i =0;
+        let rows:any = [[],[]]
         while (i < 10) {
-          turma.rows.push({
+          rows[Math.floor(i/5)].push({
             dia: i% 5,
             turno:shift,
             hora: (shift*2) + Math.floor(i/5)
           })
           i++;
         }
+        turma.rows = turma.rows.concat(rows) 
       })
       DICIPLINAS.forEach(diciplina => {
         if(diciplina.semester===turma.semester)
@@ -57,8 +59,10 @@ export class TableService {
       });
       this.baseTable.push(turma);
     });
+    console.log(this.baseTable)
     this.setDaytimeTable();
   }
+
   private setBaseTeacherTable(){
     this.baseTeacherTable =PROFESSORES.map((professor:Professor)=>{
       return {professor:professor,diciplinas:[]}
@@ -78,19 +82,22 @@ export class TableService {
           return innerCard
       });
 
-      turma.rows =turma.rows.map((innerData: any)=>{
-        innerData.card = this.cards.find((card:Card)=>{
-          if(card.turma==turma.code){
-            const result = card.local.some((data:Local)=> data.dia==innerData.dia && data.turno==innerData.turno&& data.hora==innerData.hora);
-            if(result){
-              return card;
+      turma.rows =turma.rows.map((rows: any)=>{
+        rows =rows.map((innerData: any)=>{
+          innerData.card = this.cards.find((card:Card)=>{
+            if(card.turma==turma.code){
+              const result = card.local.some((data:Local)=> data.dia==innerData.dia && data.turno==innerData.turno&& data.hora==innerData.hora);
+              if(result){
+                return card;
+              }else
+                return false
             }else
               return false
-          }else
-            return false
+          });
+          !innerData.card?delete innerData['card']:null;
+          return innerData
         });
-        !innerData.card?delete innerData['card']:null;
-        return innerData
+        return rows;
       });
       return turma;
     });
@@ -106,19 +113,22 @@ export class TableService {
         return innerCard
     });
     
-    base.rows =base.rows.map((innerData: any)=>{
-      innerData.card = this.cards.find((card:Card)=>{
-        if(card.turma==base.code){
-          const result = card.local.some((data:Local)=> data.dia==innerData.dia && data.turno==innerData.turno&& data.hora==innerData.hora);
-          if(result){
-            return card;
+    base.rows =base.rows.map((rows: any)=>{
+      rows =rows.map((innerData: any)=>{
+        innerData.card = this.cards.find((card:Card)=>{
+          if(card.turma==base.code){
+            const result = card.local.some((data:Local)=> data.dia==innerData.dia && data.turno==innerData.turno&& data.hora==innerData.hora);
+            if(result){
+              return card;
+            }else
+              return false
           }else
             return false
-        }else
-          return false
+        });
+        !innerData.card?delete innerData['card']:null;
+        return innerData
       });
-      !innerData.card?delete innerData['card']:null;
-      return innerData
+      return rows;
     });
     const index = this.table.daytime.findIndex(innerTurma=>innerTurma.code==turma);
     this.table.daytime[index]=JSON.parse(JSON.stringify(base));

@@ -1,20 +1,15 @@
 <div mat-dialog-content>
-  <p>Escolher professor</p>
-  <mat-form-field appearance="fill">
+  <h2 class="title">Escolher professor</h2>
+  <mat-form-field class="select-input" appearance="fill">
     <mat-label>Nome do professor</mat-label>
-    <mat-select [(value)]="selected" *ngIf="!data">
-      <mat-option [value]="teacher" *ngFor="let teacher of teachers">
-        {{teacher.name}}
-      </mat-option>
-    </mat-select>
-    <mat-select [(value)]="selected" *ngIf="data">
-      <mat-option [value]="teacher" *ngFor="let teacher of data">
-        {{teacher.name}}
+    <mat-select [(value)]="selecionado">
+      <mat-option [value]="professor" *ngFor="let professor of professores">
+        {{professor.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="selected" cdkFocusInitial>Ok</button>
+<div class="dialog-btns" mat-dialog-actions>
+  <button mat-raised-button color="warn"  (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="selecionado" cdkFocusInitial>Confirmar</button>
 </div>

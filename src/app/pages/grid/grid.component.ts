@@ -6,6 +6,7 @@ import { Table } from 'src/app/model/table.model';
 import { TableService } from 'src/app/services/table.service';
 import { PROFESSORES } from 'src/app/consts/professores'; 
 import { SEMESTRES, HORARIO } from 'src/app/consts/consts';
+import { Professor } from 'src/app/model/professor.model';
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
@@ -51,7 +52,15 @@ export class GridComponent implements OnInit {
   }
 
   grab(card:Card) {
-    this.hold = card;
+    if(this.hold){
+      this.hold = undefined;
+    }else{
+      this.hold = undefined;
+      if(card.local.length*2 < card.diciplina.hours){
+        this.hold = card;
+      }
+    }
+
   }
 
   drop(data:any,turma:any) {
@@ -64,46 +73,61 @@ export class GridComponent implements OnInit {
 
   }
 
-  addTeacher(card:Card){
+  changeTeacher(card:Card,type:string){
     const dialogRef = this.dialog.open(DialogSelect, {
-      width: '250px',
+      width: '300px',
+      data: {
+        professores:card.professores,
+        type:type
+      },
+      
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        card.professores.push(result)
-        this.tableService.changeTeacher(card)
-      }
-    });
-  }
-
-  removeTeacher(card:Card){
-    const dialogRef = this.dialog.open(DialogSelect, {
-      width: '250px',
-      data: card.professores,
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        const index = card.professores.findIndex(professor=>professor.id==result.id);
-        card.professores.splice(index,1);
-        this.tableService.changeTeacher(card)
+        if(type=='add'){
+          card.professores.push(result)
+          this.tableService.changeTeacher(card)
+        }else if(type=='sub'){
+          const index = card.professores.findIndex(professor=>professor.id==result.id);
+          card.professores.splice(index,1);
+          this.tableService.changeTeacher(card)
+        }
       }
     });
   }
 }
-
 @Component({
   selector: 'dialog-select',
   templateUrl: 'dialog-select.html',
+  styleUrls: ['./dialog-select.scss']
 })
-export class DialogSelect {
-  teachers=PROFESSORES;
-  selected:any;
+export class DialogSelect implements OnInit{
+  professores:Array<Professor>;
+  selecionado:any;
   constructor(
     public dialogRef: MatDialogRef<DialogSelect>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
+
+  }
+
+  ngOnInit(): void {
+    console.log(this.data)
+    if(this.data.type=='add'){
+      this.professores = PROFESSORES.filter((professor:Professor)=>{
+        const result = this.data.professores.some((injectProfessor:Professor)=> injectProfessor.id==professor.id);
+        if(result){
+          return false;
+        }else
+          return true
+      });
+      this.professores.sort((a, b) => a.name.localeCompare(b.name))
+    }else if(this.data.type=='sub'){
+      this.professores = this.data.professores;
+      this.professores.sort((a, b) => a.name.localeCompare(b.name))
+    }
+    
   }
 
   onNoClick(): void {

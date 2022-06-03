@@ -14,6 +14,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import {MatTableModule} from '@angular/material/table';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
 
 import { GridComponent } from './pages/grid/grid.component';
 import { DialogSelect } from './pages/grid/grid.component';
@@ -42,7 +43,8 @@ import { CadastrosComponent } from './pages/cadastros/cadastros.component';
     MatTabsModule,
     MatTableModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
