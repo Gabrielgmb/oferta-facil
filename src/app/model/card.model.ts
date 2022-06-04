@@ -7,7 +7,7 @@ export class Card{
     professores:Array<Professor>;
     local:Array<Local>;
     turma:string;
-    conflitos:Array<string>
+    conflitos:Array<any>
 
     constructor(diciplina: Diciplina, turma:string){
         this.id = turma+diciplina.code;
@@ -15,5 +15,6 @@ export class Card{
         this.turma = turma;
         this.professores =[];
         this.local = []
+        this.conflitos = []
     }
 }

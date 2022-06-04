@@ -42,8 +42,7 @@ export class GridComponent implements OnInit {
   
   switch(event: CdkDragDrop<any>) {
     let previousItem = event.previousContainer.data;
-    let actualItem = event.container.data; 
-    console.log(previousItem,actualItem)  
+    let actualItem = event.container.data;   
     if(!actualItem.card)
       this.tableService.changeEmptyTime(previousItem,actualItem);
     else
@@ -113,7 +112,6 @@ export class DialogSelect implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.data)
     if(this.data.type=='add'){
       this.professores = PROFESSORES.filter((professor:Professor)=>{
         const result = this.data.professores.some((injectProfessor:Professor)=> injectProfessor.id==professor.id);

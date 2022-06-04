@@ -20,10 +20,13 @@
                                 </td>
                             </ng-container>
 
-                            <td class="categories-item" cdkDropList cdkDropListOrientation="horizontal" [ngClass]="{'move': date.card,'empty':!date.card,'empty-active': hold && hold.turma ==turma.code&&!date.card}" [cdkDropListData]="date" (cdkDropListDropped)="switch($event)" *ngFor="let date of rows">
+                            <td class="categories-item" cdkDropList cdkDropListOrientation="horizontal" [ngClass]="{'empty':!date.card,'empty-active': hold && hold.turma ==turma.code&&!date.card,'conflito': date.card && date.card.conflitos.length>0}" [cdkDropListData]="date" (cdkDropListDropped)="switch($event)" *ngFor="let date of rows">
                                 <div class="inner" (click)="drop(date,turma.code)" [cdkDragDisabled]="!date.card" cdkDragBoundary=".table-boundary" cdkDrag>
                                     <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                                     <div *ngIf="date.card">
+                                        <div>
+                                            <mat-icon *ngFor="let conflito of date.card.conflitos">clear</mat-icon>
+                                        </div>
                                         <h4 class="title_card">{{date.card.diciplina.name}}</h4>
                                         <h5 *ngFor="let professor of date.card.professores" class="name_teacher">{{professor.name}}</h5>
                                         <h5 class="vacancy_card">({{date.card.diciplina.vacancy}})</h5>

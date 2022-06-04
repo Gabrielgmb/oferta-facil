@@ -36,7 +36,8 @@
     }
   }
   .categories-item {  
-    background-color: #DDD;                      
+    background-color: #DDD;  
+    cursor:move;                    
     .inner{
       width:100%;
       min-height: 5rem;
@@ -59,15 +60,15 @@
     }
   }
   .empty{
-    background-color: white;   
+    background-color: white; 
+    cursor:default; 
   }
   .empty-active:hover{
     cursor:pointer;
     background-color: goldenrod;
   }
-
-  .move{
-    cursor:move;
+  .conflito{
+    background-color: lightpink;
   }
 
   .list-pool {
