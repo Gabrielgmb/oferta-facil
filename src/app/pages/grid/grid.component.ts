@@ -7,6 +7,8 @@ import { TableService } from 'src/app/services/table.service';
 import { PROFESSORES } from 'src/app/consts/professores'; 
 import { SEMESTRES, HORARIO } from 'src/app/consts/consts';
 import { Professor } from 'src/app/model/professor.model';
+import { SALAS } from 'src/app/consts/salas';
+import { Sala } from 'src/app/model/sala.model';
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
@@ -55,7 +57,7 @@ export class GridComponent implements OnInit {
       this.hold = undefined;
     }else{
       this.hold = undefined;
-      if(card.local.length*2 < card.diciplina.hours){
+      if(card.horarios.length*2 < card.diciplina.hours){
         this.hold = card;
       }
     }
@@ -65,19 +67,20 @@ export class GridComponent implements OnInit {
   drop(data:any,turma:any) {
     if(this.hold && this.hold.turma==turma && !data.card){
       delete data['card'];
-      this.hold.local.push(data);
+      this.hold.horarios.push(data);
       this.tableService.addTime(this.hold);
       this.hold = undefined;
     }
 
   }
 
-  changeTeacher(card:Card,type:string){
+  changeTeacher(card:Card,type:string,item:string){
     const dialogRef = this.dialog.open(DialogSelect, {
       width: '300px',
       data: {
         professores:card.professores,
-        type:type
+        type:type,
+        item:item
       },
       
     });
@@ -95,6 +98,27 @@ export class GridComponent implements OnInit {
       }
     });
   }
+
+  changeRoom(card:Card,type:string,item:string){
+    const dialogRef = this.dialog.open(DialogSelect, {
+      width: '300px',
+      data: {
+        professores:card.professores,
+        type:type,
+        item:item
+      },
+      
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(type=='add'){
+          card.sala=result
+          this.tableService.addSala(card)
+        }
+      }
+    });
+  }
 }
 @Component({
   selector: 'dialog-select',
@@ -102,7 +126,7 @@ export class GridComponent implements OnInit {
   styleUrls: ['./dialog-select.scss']
 })
 export class DialogSelect implements OnInit{
-  professores:Array<Professor>;
+  lista:Array<any>;
   selecionado:any;
   constructor(
     public dialogRef: MatDialogRef<DialogSelect>,
@@ -112,20 +136,34 @@ export class DialogSelect implements OnInit{
   }
 
   ngOnInit(): void {
+    console.log(this.data)
+    if(this.data.item=='professor')
+      this.setTeacherSelect();
+    else if(this.data.item=='sala')
+      this.setRoomSelect();
+    
+  }
+  setTeacherSelect(): void {
     if(this.data.type=='add'){
-      this.professores = PROFESSORES.filter((professor:Professor)=>{
+      this.lista = PROFESSORES.filter((professor:Professor)=>{
         const result = this.data.professores.some((injectProfessor:Professor)=> injectProfessor.id==professor.id);
         if(result){
           return false;
         }else
           return true
       });
-      this.professores.sort((a, b) => a.name.localeCompare(b.name))
+      console.log(this.lista)
     }else if(this.data.type=='sub'){
-      this.professores = this.data.professores;
-      this.professores.sort((a, b) => a.name.localeCompare(b.name))
+      this.lista = this.data.professores;
     }
-    
+    this.lista.sort((a, b) => a.name.localeCompare(b.name))
+  }
+
+  setRoomSelect(): void {
+    if(this.data.type=='add'){
+      this.lista = SALAS;
+      this.lista.sort((a, b) => a.name.localeCompare(b.name))
+    }
   }
 
   onNoClick(): void {

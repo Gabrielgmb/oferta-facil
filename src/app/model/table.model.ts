@@ -3,4 +3,5 @@ export class Table{
     nocturnal:Array<any>;
     teachers:Array<any>;
     allTeachers:Array<any>;
+    rooms:Array<any>;
 }

@@ -1,4 +1,6 @@
-export const PROFESSORES = [
+import { Professor } from "../model/professor.model";
+
+export const PROFESSORES:Professor[] = [
     {
         id:'0001',
         name: 'Adriano Anunciação Oliveira',

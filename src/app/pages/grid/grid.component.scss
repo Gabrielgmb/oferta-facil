@@ -130,6 +130,21 @@
           }
         }
       }
+      .room_list{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        .title_room{
+          font-size: 16px;
+        }
+        .name_teacher{
+          font-size: 14px;
+        }
+        .room_btn{
+          border-right:  0 solid #354497;
+        }
+      }
     }
     .active{
       box-shadow: 0 8px #999;

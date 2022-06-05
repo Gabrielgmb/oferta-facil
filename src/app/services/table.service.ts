@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Diciplina } from 'src/app/model/disciplina.model';
-import { Local } from '../model/local.model';
+import { Horario } from '../model/horario.model';
 import { Card } from '../model/card.model';
 import { Turma } from '../model/turma.model';
 import { DICIPLINAS } from '../consts/diciplinas';
@@ -9,7 +9,8 @@ import { TURMAS } from '../consts/turmas';
 import { Table } from '../model/table.model';
 import { Professor } from '../model/professor.model';
 import { HORARIO } from '../consts/consts';
-import { PROFESSORES } from '../consts/professores'
+import { PROFESSORES } from '../consts/professores';
+import { SALAS } from '../consts/salas';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class TableService {
   constructor() {
     this.tableSubject = new Subject<Table>();
     this.baseTable = [];
-    this.table = {daytime:[],nocturnal:[],teachers:[],allTeachers:[]};
+    this.table = {daytime:[],nocturnal:[],teachers:[],allTeachers:[],rooms:[]};
     this.cards = [];
    }
 
@@ -33,7 +34,7 @@ export class TableService {
     if (cards && cards !== 'null' && cards !== undefined && cards !== 'undefined'&& cards && cards !== '') {
       this.cards = JSON.parse(cards);
     }
-    this.conflict();
+    this.getConflicts();
     this.setBaseHourTable();
     this.setBaseTeacherTable();
     this.setTeacherTable();
@@ -89,7 +90,7 @@ export class TableService {
         rows =rows.map((innerData: any)=>{
           let card= this.cards.find((card:Card)=>{
             if(card.turma==turma.code){
-              const result = card.local.some((data:Local)=> data.dia==innerData.dia && data.turno==innerData.turno&& data.hora==innerData.hora);
+              const result = card.horarios.some((data:Horario)=> data.dia==innerData.dia && data.turno==innerData.turno&& data.hora==innerData.hora);
               if(result){
                 return card;
               }else
@@ -99,7 +100,7 @@ export class TableService {
           });
           if(card){
             innerData.card = JSON.parse(JSON.stringify(card));
-            innerData.card.conflitos =innerData.card.conflitos.filter((data:any)=>data.local.dia == innerData.dia && data.local.turno == innerData.turno && data.local.hora == innerData.hora)
+            innerData.card.conflitos =innerData.card.conflitos.filter((data:any)=>data.horario.dia == innerData.dia && data.horario.turno == innerData.turno && data.horario.hora == innerData.hora)
           }else{
             delete innerData['card'];
           }
@@ -112,6 +113,7 @@ export class TableService {
   }
   
   //Função responsável por atualizar a tabela tanto do diurno quanto do noturno, ela atualiza somente a turma que sofreu alterações
+  /*
   private updateHourTable(turma:string){
     let base = JSON.parse(JSON.stringify(this.baseTable.find((innerTurma:Turma)=>innerTurma.code==turma)));
     base.card =base.card.map((innerCard: Card)=>{
@@ -147,11 +149,35 @@ export class TableService {
     const index = this.table.daytime.findIndex(innerTurma=>innerTurma.code==turma);
     this.table.daytime[index]=JSON.parse(JSON.stringify(base));
     
-  }
+  }*/
 
   //Função responsável por criar a tabela de horário de professores
   private setTeacherTable(){
     this.table.teachers=[];
+    this.cards.forEach((card:Card)=>{
+      card.professores.forEach((professor:Professor)=>{
+        const index = this.table.teachers.findIndex(data=>data.professor.id==professor.id);
+        if(index <0){
+          let base:any = [];
+          HORARIO.forEach((horas:any)=>{
+            base.push([[],[],[],[],[]])
+          });
+          card.horarios.forEach((horario:Horario)=>{
+            base[horario.hora][horario.dia].push(card.diciplina.name);
+          });
+          this.table.teachers.push({professor:professor,horas:base})
+        }else{
+          card.horarios.forEach((horario:Horario)=>{
+            this.table.teachers[index].horas[horario.hora][horario.dia].push(card.diciplina.name);
+          });
+        }
+      });
+    });
+  }
+
+  private setRoomTable(){
+    this.table.rooms=[[],[],[],[],[]];
+    /*
     this.cards.forEach((card:Card)=>{
       card.professores.forEach((professor:Professor)=>{
         const index = this.table.teachers.findIndex(data=>data.professor.id==professor.id);
@@ -170,11 +196,11 @@ export class TableService {
           });
         }
       });
-    });
+    });*/
   }
 
   //Função responsável por checar conflitos nas tabelas
-  private conflict(){
+  private getConflicts(){
     this.cards = this.cards.map((card:Card)=>{
       card.conflitos=[];
       card.professores.forEach((professor:Professor)=>{
@@ -182,10 +208,10 @@ export class TableService {
           if(card.id!==innerCard.id){
             const result = innerCard.professores.some((innerProfessor:Professor)=> professor.id==innerProfessor.id);
             if(result){
-              card.local.forEach((local:Local)=>{
-                const result = innerCard.local.some((innerLocal:Local)=> local.dia==innerLocal.dia && local.turno==innerLocal.turno&& local.hora==innerLocal.hora);
+              card.horarios.forEach((horario:Horario)=>{
+                const result = innerCard.horarios.some((innerHorario:Horario)=> horario.dia==innerHorario.dia && horario.turno==innerHorario.turno&& horario.hora==innerHorario.hora);
                 if(result)
-                  card.conflitos.push({cardId:innerCard.id,local:local});
+                  card.conflitos.push({cardId:innerCard.id,horario:horario});
               });
             }
           }
@@ -203,7 +229,7 @@ export class TableService {
         if(card.professores.some((professor:Professor)=> professor.id==item.professor.id)){
           item.diciplinas.push(
             {diciplina:card.diciplina,
-              turno:card.local[0].turno!=2?'diurno':'noturno'
+              turno:card.horarios[0].turno!=2?'diurno':'noturno'
             });
         }
       });
@@ -212,8 +238,8 @@ export class TableService {
   }
 
   //Função responsável por iniciar a atualização das tabelas
-  private updateTables(card:Card){
-    this.conflict();
+  private updateTables(){
+    this.getConflicts();
     localStorage.setItem('cards', JSON.stringify(this.cards));
     this.setTeacherTable();
     this.setDaytimeTable();
@@ -229,12 +255,12 @@ export class TableService {
     }else{
       this.cards[index]=card;
     }
-    this.updateTables(card);
+    this.updateTables();
   }
 
   //Função responsável por adicionar um cartão a tabela
   public addTime(card:Card){
-    if(card.local.length<=card.diciplina.hours/2){
+    if(card.horarios.length<=card.diciplina.hours/2){
       const index = this.cards.findIndex(innerCard=>innerCard.id==card.id);
       if(index <0){
         this.cards.push(card)
@@ -242,58 +268,64 @@ export class TableService {
         this.cards[index]=card;
       }
     }
-    this.updateTables(card);
+    this.updateTables();
   }
 
   //Função responsável por trocar o tempo de um cartão
   public changeTime(oldItem:any,newItem:any){
     this.cards=this.cards.map((card:Card)=>{
       if(card.id==oldItem.card.id){
-        card.local = card.local.map((local:Local)=>{
-          if(oldItem.dia==local.dia && oldItem.turno==local.turno &&  oldItem.hora==local.hora){
-            local.dia=newItem.dia;
-            local.turno=newItem.turno;
-            local.hora=newItem.hora;
-            return local;
-          }else {
-            return local
+        card.horarios = card.horarios.map((horario:Horario)=>{
+          if(oldItem.dia==horario.dia && oldItem.turno==horario.turno &&  oldItem.hora==horario.hora){
+            horario.dia=newItem.dia;
+            horario.turno=newItem.turno;
+            horario.hora=newItem.hora;
           }
+          return horario
         });
       }else if(card.id==newItem.card.id){
-        card.local = card.local.map((local:Local)=>{
-          if(newItem.dia==local.dia && newItem.turno==local.turno &&  newItem.hora==local.hora){
-            local.dia=oldItem.dia;
-            local.turno=oldItem.turno;
-            local.hora=oldItem.hora;
-            return local;
-          }else {
-            return local
+        card.horarios = card.horarios.map((horario:Horario)=>{
+          if(newItem.dia==horario.dia && newItem.turno==horario.turno &&  newItem.hora==horario.hora){
+            horario.dia=oldItem.dia;
+            horario.turno=oldItem.turno;
+            horario.hora=oldItem.hora;
           }
+          return horario
         });
       }
       return card;
     })
-    this.updateTables(oldItem.card);
+    this.updateTables();
   }
 
   //Função responsável por trocar o tempo de um cartão com um espaço vazio
   public changeEmptyTime(oldItem:any,newItem:any){
     this.cards=this.cards.map((card:Card)=>{
       if(card.id==oldItem.card.id){
-        card.local = card.local.map((local:Local)=>{
-          if(oldItem.dia==local.dia && oldItem.turno==local.turno &&  oldItem.hora==local.hora){
-            local.dia=newItem.dia;
-            local.turno=newItem.turno;
-            local.hora=newItem.hora;
-            return local;
-          }else {
-            return local
+        card.horarios = card.horarios.map((horario:Horario)=>{
+          if(oldItem.dia==horario.dia && oldItem.turno==horario.turno &&  oldItem.hora==horario.hora){
+            horario.dia=newItem.dia;
+            horario.turno=newItem.turno;
+            horario.hora=newItem.hora;
           }
+          return horario;
         });
       };
       return card;
     })
-    this.updateTables(oldItem.card);
+    this.updateTables();
+  }
+
+  public addSala(card:Card){
+    if(card.horarios.length<=card.diciplina.hours/2){
+      const index = this.cards.findIndex(innerCard=>innerCard.id==card.id);
+      if(index <0){
+        this.cards.push(card)
+      }else{
+        this.cards[index]=card;
+      }
+    }
+    this.updateTables();
   }
 
   private publishTable() {

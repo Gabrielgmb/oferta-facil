@@ -1,6 +1,5 @@
-export class Local{
+export class Horario{
     dia:number;
     hora:number;
     turno:number;
-    sala:string;
 }

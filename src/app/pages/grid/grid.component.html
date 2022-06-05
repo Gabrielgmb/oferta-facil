@@ -29,28 +29,35 @@
                                         </div>
                                         <h4 class="title_card">{{date.card.diciplina.name}}</h4>
                                         <h5 *ngFor="let professor of date.card.professores" class="name_teacher">{{professor.name}}</h5>
-                                        <h5 class="vacancy_card">({{date.card.diciplina.vacancy}})</h5>
+                                        <h5 class="vacancy_card"><span *ngIf="date.card.sala">{{date.card.sala.name+' - '}}</span>({{date.card.diciplina.vacancy}})</h5>
                                     </div>
                                 </div>
                             </td>
                         </tr>
                     </table>
                     <div class="list-pool">
-                        <div class="card" [ngClass]="{'grabbed': hold && card.id == hold.id, 'full': card.local.length*2 == card.diciplina.hours, 'active': card.local.length*2 < card.diciplina.hours}" (click)="grab(card)" *ngFor="let card of turma.card">
-                            <h5 class="hours_count">{{card.local.length*2}}/{{card.diciplina.hours}}</h5>
+                        <div class="card" [ngClass]="{'grabbed': hold && card.id == hold.id, 'full': card.horarios.length*2 == card.diciplina.hours, 'active': card.horarios.length*2 < card.diciplina.hours}" (click)="grab(card)" *ngFor="let card of turma.card">
+                            <h5 class="hours_count">{{card.horarios.length*2}}/{{card.diciplina.hours}}</h5>
                             <h4 class="title_card">{{card.diciplina.name}}</h4>
                             <div class="teacher_list">
                                 <h5 class="title_teacher">Professores:</h5>
                                 <h5 *ngFor="let professor of card.professores" class="name_teacher">{{professor.name}}</h5>
                                 <div class="btn_div">
-                                    <button class="btn" [ngClass]="{'left_btn': card.professores.length>0}" (click)="changeTeacher(card,'add')" mat-flat-button color="primary" aria-label="Example icon button with a menu icon">
+                                    <button class="btn" [ngClass]="{'left_btn': card.professores.length>0}" (click)="changeTeacher(card,'add','professor')" mat-flat-button color="primary" aria-label="Example icon button with a menu icon">
                                         <mat-icon>add</mat-icon>
                                     </button>
-                                    <button class="btn rigth_btn" *ngIf="card.professores.length>0" (click)="changeTeacher(card,'sub')" mat-flat-button color="primary" aria-label="Example icon button with a menu icon">
+                                    <button class="btn rigth_btn" *ngIf="card.professores.length>0" (click)="changeTeacher(card,'sub','professor')" mat-flat-button color="primary" aria-label="Example icon button with a menu icon">
                                         <mat-icon>remove</mat-icon>
                                     </button>
                                 </div>
 
+                            </div>
+                            <div class="room_list">
+                                <h5 class="title_room">Sala: <span  *ngIf="card.sala">{{card.sala.name}}</span></h5>
+                                <button class="btn rigth_btn"  *ngIf="!card.sala" (click)="changeRoom(card,'add','sala')" mat-button color="primary" >
+                                    <span>Adicionar</span>
+                                    <mat-icon>add</mat-icon>
+                                </button>
                             </div>
                         </div>
                     </div> 

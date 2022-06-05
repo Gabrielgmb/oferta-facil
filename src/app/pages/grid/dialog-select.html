@@ -1,10 +1,10 @@
 <div mat-dialog-content>
-  <h2 class="title">Escolher professor</h2>
+  <h2 class="title">Escolher {{data.item}}</h2>
   <mat-form-field class="select-input" appearance="fill">
-    <mat-label>Nome do professor</mat-label>
+    <mat-label>Nome {{data.item}}</mat-label>
     <mat-select [(value)]="selecionado">
-      <mat-option [value]="professor" *ngFor="let professor of professores">
-        {{professor.name}}
+      <mat-option [value]="item" *ngFor="let item of lista">
+        {{item.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
