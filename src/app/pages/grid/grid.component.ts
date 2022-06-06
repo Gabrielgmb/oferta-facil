@@ -5,10 +5,11 @@ import { Card } from 'src/app/model/card.model';
 import { Table } from 'src/app/model/table.model';
 import { TableService } from 'src/app/services/table.service';
 import { PROFESSORES } from 'src/app/consts/professores'; 
-import { SEMESTRES, HORARIO } from 'src/app/consts/consts';
+import { SEMESTRES, HORARIO, DIAS } from 'src/app/consts/consts';
 import { Professor } from 'src/app/model/professor.model';
 import { SALAS } from 'src/app/consts/salas';
 import { Sala } from 'src/app/model/sala.model';
+
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
@@ -19,6 +20,7 @@ export class GridComponent implements OnInit {
   table: Table;
   semesters=SEMESTRES;
   hours=HORARIO;
+  days=DIAS;
   displayedColumns: string[] = ['Segunda', 'Terca', 'Quarta', 'Quinta','Sexta'];
   constructor(
     private dialog: MatDialog,
@@ -75,6 +77,7 @@ export class GridComponent implements OnInit {
   }
 
   changeTeacher(card:Card,type:string,item:string){
+    
     const dialogRef = this.dialog.open(DialogSelect, {
       width: '300px',
       data: {
@@ -87,6 +90,7 @@ export class GridComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
+        this.hold = undefined;
         if(type=='add'){
           card.professores.push(result)
           this.tableService.changeTeacher(card)
@@ -100,6 +104,7 @@ export class GridComponent implements OnInit {
   }
 
   changeRoom(card:Card,type:string,item:string){
+    
     const dialogRef = this.dialog.open(DialogSelect, {
       width: '300px',
       data: {
@@ -109,12 +114,12 @@ export class GridComponent implements OnInit {
       },
       
     });
-
     dialogRef.afterClosed().subscribe(result => {
+      this.hold = undefined;
       if(result){
         if(type=='add'){
           card.sala=result
-          this.tableService.addSala(card)
+          this.tableService.changeRoom(card)
         }
       }
     });

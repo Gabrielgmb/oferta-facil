@@ -142,7 +142,11 @@
           font-size: 14px;
         }
         .room_btn{
-          border-right:  0 solid #354497;
+          font-size: 16px;
+          padding: 0;
+          margin-left: 5px;
+          line-height: normal;
+          min-width: 0;
         }
       }
     }
@@ -231,6 +235,12 @@
     p:last-child{
       margin: 0;
     }
+  }
+  .room_card{
+    border-bottom: 1px solid black;
+  }
+  .room_card:last-child{
+    border-bottom: 0px solid black;
   }
   .pos{
     background-color: #b4a7d6;

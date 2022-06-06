@@ -20,11 +20,13 @@ export class TableService {
   private cards: Array<Card>;
   private baseTable:Array<any>;
   private baseTeacherTable:Array<any>;
+  private baseRoomTable:Array<any>;
   private table:Table;
   private tableSubject: Subject<Table>;
   constructor() {
     this.tableSubject = new Subject<Table>();
     this.baseTable = [];
+    this.baseRoomTable = [];
     this.table = {daytime:[],nocturnal:[],teachers:[],allTeachers:[],rooms:[]};
     this.cards = [];
    }
@@ -35,6 +37,7 @@ export class TableService {
       this.cards = JSON.parse(cards);
     }
     this.getConflicts();
+    this.setBaseRoomTable();
     this.setBaseHourTable();
     this.setBaseTeacherTable();
     this.setTeacherTable();
@@ -72,6 +75,19 @@ export class TableService {
       return {professor:professor,diciplinas:[]}
     });
     this.setAllTeacherTable();
+  }
+
+  private setBaseRoomTable(){
+    let base:any =[];
+    SALAS.forEach((sala:any)=>{
+      let innerSala:any={sala:sala,horas:[]};
+      innerSala.horas = HORARIO.map((hora:any)=>{
+        return [];
+      });
+      base.push(innerSala)
+    });
+    this.baseRoomTable= [base,base,base,base,base]
+    this.setRoomTable();        
   }
 
   //Função que cria a tabela a oferta de turmas do diurno
@@ -176,49 +192,16 @@ export class TableService {
   }
 
   private setRoomTable(){
-    this.table.rooms=[[],[],[],[],[]];
-    /*
+    const base = JSON.parse(JSON.stringify(this.baseRoomTable));
     this.cards.forEach((card:Card)=>{
-      card.professores.forEach((professor:Professor)=>{
-        const index = this.table.teachers.findIndex(data=>data.professor.id==professor.id);
-        if(index <0){
-          let base:any = [];
-          HORARIO.forEach((horas:any)=>{
-            base.push([[],[],[],[],[]])
-          });
-          card.local.forEach((local:Local)=>{
-            base[local.hora][local.dia].push(card.diciplina.name);
-          });
-          this.table.teachers.push({professor:professor,horas:base})
-        }else{
-          card.local.forEach((local:Local)=>{
-            this.table.teachers[index].horas[local.hora][local.dia].push(card.diciplina.name);
-          });
-        }
-      });
-    });*/
-  }
-
-  //Função responsável por checar conflitos nas tabelas
-  private getConflicts(){
-    this.cards = this.cards.map((card:Card)=>{
-      card.conflitos=[];
-      card.professores.forEach((professor:Professor)=>{
-        this.cards.forEach((innerCard:Card)=>{
-          if(card.id!==innerCard.id){
-            const result = innerCard.professores.some((innerProfessor:Professor)=> professor.id==innerProfessor.id);
-            if(result){
-              card.horarios.forEach((horario:Horario)=>{
-                const result = innerCard.horarios.some((innerHorario:Horario)=> horario.dia==innerHorario.dia && horario.turno==innerHorario.turno&& horario.hora==innerHorario.hora);
-                if(result)
-                  card.conflitos.push({cardId:innerCard.id,horario:horario});
-              });
-            }
-          }
-        })
-      });
-      return card
+      if(card.sala){
+        card.horarios.forEach((horario:Horario)=>{
+          const index = base[horario.dia].findIndex((data:any)=>data.sala.id==card.sala.id);
+          base[horario.dia][index].horas[horario.hora].push(card);
+        });
+      }
     });
+    this.table.rooms=base;
   }
 
   //Função responsável por criar a tabela de todos os professores
@@ -237,10 +220,44 @@ export class TableService {
     });
   }
 
+    //Função responsável por checar conflitos nas tabelas
+    private getConflicts(){
+      this.cards = this.cards.map((card:Card)=>{
+        card.conflitos=[];
+        card.professores.forEach((professor:Professor)=>{
+          this.cards.forEach((innerCard:Card)=>{
+            if(card.id!==innerCard.id){
+              const result = innerCard.professores.some((innerProfessor:Professor)=> professor.id==innerProfessor.id);
+              if(result){
+                card.horarios.forEach((horario:Horario)=>{
+                  const result = innerCard.horarios.some((innerHorario:Horario)=> horario.dia==innerHorario.dia && horario.turno==innerHorario.turno&& horario.hora==innerHorario.hora);
+                  if(result)
+                    card.conflitos.push({cardId:innerCard.id,horario:horario,type:'professor'});
+                });
+              }
+            }
+          })
+        });
+        if(card.sala){
+          this.cards.forEach((innerCard:Card)=>{
+            if(card.id!==innerCard.id && innerCard.sala){
+              card.horarios.forEach((horario:Horario)=>{
+                const result = innerCard.horarios.some((innerHorario:Horario)=> horario.dia==innerHorario.dia && horario.turno==innerHorario.turno&& horario.hora==innerHorario.hora);
+                if(result && card.sala.id ==innerCard.sala.id)
+                  card.conflitos.push({cardId:innerCard.id,horario:horario,type:'sala'});
+              });
+            }
+          })
+        }
+        return card
+      });
+    }
+
   //Função responsável por iniciar a atualização das tabelas
   private updateTables(){
     this.getConflicts();
     localStorage.setItem('cards', JSON.stringify(this.cards));
+    this.setRoomTable();
     this.setTeacherTable();
     this.setDaytimeTable();
     this.setAllTeacherTable();
@@ -316,7 +333,7 @@ export class TableService {
     this.updateTables();
   }
 
-  public addSala(card:Card){
+  public changeRoom(card:Card){
     if(card.horarios.length<=card.diciplina.hours/2){
       const index = this.cards.findIndex(innerCard=>innerCard.id==card.id);
       if(index <0){

@@ -18,6 +18,17 @@ export const HORARIO = [
     '18h - 20h',
     '20h - 22h',
 ]
+
+export const DIAS = [
+    'Segunda',
+    'Terça',
+    'Quarta',
+    'Quinta',
+    'Sexta',
+    'Sábado',
+    'Domingo',
+]
+
 export const TURNOS = [
     'Manhã',
     'Tarde',
