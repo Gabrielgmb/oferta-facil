@@ -288,6 +288,17 @@ export class TableService {
     this.updateTables();
   }
 
+  //Função responsável por adicionar um cartão a tabela
+  public removeTime(card:Card){
+    const index = this.cards.findIndex(innerCard=>innerCard.id==card.id);
+    if(index <0){
+      this.cards.push(card)
+    }else{
+      this.cards[index]=card;
+    }
+    this.updateTables();
+  }
+
   //Função responsável por trocar o tempo de um cartão
   public changeTime(oldItem:any,newItem:any){
     this.cards=this.cards.map((card:Card)=>{
@@ -334,14 +345,25 @@ export class TableService {
   }
 
   public changeRoom(card:Card){
-    if(card.horarios.length<=card.diciplina.hours/2){
-      const index = this.cards.findIndex(innerCard=>innerCard.id==card.id);
-      if(index <0){
-        this.cards.push(card)
-      }else{
-        this.cards[index]=card;
-      }
+
+    const index = this.cards.findIndex(innerCard=>innerCard.id==card.id);
+    if(index <0){
+      this.cards.push(card)
+    }else{
+      this.cards[index]=card;
     }
+    
+    this.updateTables();
+  }
+  public changeVacancy(card:Card){
+
+    const index = this.cards.findIndex(innerCard=>innerCard.id==card.id);
+    if(index <0){
+      this.cards.push(card)
+    }else{
+      this.cards[index]=card;
+    }
+    
     this.updateTables();
   }
 

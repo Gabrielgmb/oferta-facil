@@ -1,12 +1,16 @@
 <div mat-dialog-content>
   <h2 class="title">Escolher {{data.item}}</h2>
-  <mat-form-field class="select-input" appearance="fill">
+  <mat-form-field class="select-input" *ngIf="data.item!='vagas'" appearance="fill">
     <mat-label>Nome {{data.item}}</mat-label>
-    <mat-select [(value)]="selecionado">
+    <mat-select [(ngModel)]="selecionado">
       <mat-option [value]="item" *ngFor="let item of lista">
         {{item.name}}
       </mat-option>
     </mat-select>
+  </mat-form-field>
+  <mat-form-field class="select-input" *ngIf="data.item=='vagas'" appearance="fill">
+    <mat-label>Quantidade de vagas</mat-label>
+    <input matInput type="number" [(ngModel)]="selecionado">
   </mat-form-field>
 </div>
 <div class="dialog-btns" mat-dialog-actions>

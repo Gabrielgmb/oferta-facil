@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +18,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatInputModule} from '@angular/material/input';
 
 import { GridComponent } from './pages/grid/grid.component';
 import { DialogSelect } from './pages/grid/grid.component';
@@ -48,7 +50,9 @@ import { CadastrosComponent } from './pages/cadastros/cadastros.component';
     MatListModule,
     MatButtonModule,
     MatExpansionModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatInputModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

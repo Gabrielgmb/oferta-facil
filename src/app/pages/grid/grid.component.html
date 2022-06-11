@@ -21,6 +21,7 @@
                             </ng-container>
 
                             <td class="categories-item" cdkDropList cdkDropListOrientation="horizontal" [ngClass]="{'empty':!date.card,'empty-active': hold && hold.turma ==turma.code&&!date.card,'conflito': date.card && date.card.conflitos.length>0}" [cdkDropListData]="date" (cdkDropListDropped)="switch($event)" *ngFor="let date of rows">
+                                <mat-icon *ngIf="date.card" (click)="removeTime(date)" class="remove_icon">clear</mat-icon>
                                 <div class="inner" (click)="drop(date,turma.code)" [cdkDragDisabled]="!date.card" cdkDragBoundary=".table-boundary" cdkDrag>
                                     <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                                     <div *ngIf="date.card">
@@ -28,11 +29,14 @@
                                             <span *ngFor="let conflito of date.card.conflitos">
                                                 <mat-icon>clear</mat-icon>
                                             </span>
-                                            
                                         </div>
                                         <h4 class="title_card">{{date.card.diciplina.name}}</h4>
                                         <h5 *ngFor="let professor of date.card.professores" class="name_teacher">{{professor.name}}</h5>
-                                        <h5 class="vacancy_card"><span *ngIf="date.card.sala">{{date.card.sala.name+' - '}}</span>({{date.card.diciplina.vacancy}})</h5>
+                                        <h5 class="room_name">
+                                            <span *ngIf="date.card.sala">{{date.card.sala.name+' - '}}</span>
+                                            <span *ngIf="date.card.vagas">({{date.card.vagas}})</span>
+                                            
+                                        </h5>
                                     </div>
                                 </div>
                             </td>
@@ -46,10 +50,10 @@
                                 <h5 class="title_teacher">Professores:</h5>
                                 <h5 *ngFor="let professor of card.professores" class="name_teacher">{{professor.name}}</h5>
                                 <div class="btn_div">
-                                    <button class="btn" [ngClass]="{'left_btn': card.professores.length>0}" (click)="changeTeacher(card,'add','professor')" mat-flat-button color="primary" aria-label="Example icon button with a menu icon">
+                                    <button class="btn" [ngClass]="{'left_btn': card.professores.length>0}" (click)="openModal(card,'add','professor')" mat-flat-button color="primary" aria-label="Example icon button with a menu icon">
                                         <mat-icon>add</mat-icon>
                                     </button>
-                                    <button class="btn rigth_btn" *ngIf="card.professores.length>0" (click)="changeTeacher(card,'sub','professor')" mat-flat-button color="primary" aria-label="Example icon button with a menu icon">
+                                    <button class="btn rigth_btn" *ngIf="card.professores.length>0" (click)="openModal(card,'sub','professor')" mat-flat-button color="primary" aria-label="Example icon button with a menu icon">
                                         <mat-icon>remove</mat-icon>
                                     </button>
                                 </div>
@@ -57,11 +61,21 @@
                             </div>
                             <div class="room_list">
                                 <h5 class="title_room">Sala: <span  *ngIf="card.sala">{{card.sala.name}}</span></h5>
-                                <button class="room_btn"  *ngIf="!card.sala" (click)="changeRoom(card,'add','sala')" mat-button color="primary" >
+                                <button class="room_btn"  *ngIf="!card.sala" (click)="openModal(card,'change','sala')" mat-button color="primary" >
                                     <span>Adicionar</span>
                                     <mat-icon>add</mat-icon>
                                 </button>
-                                <button class="room_btn"  *ngIf="card.sala" (click)="changeRoom(card,'add','sala')" mat-button color="primary" >
+                                <button class="room_btn"  *ngIf="card.sala" (click)="openModal(card,'change','sala')" mat-button color="primary" >
+                                    <mat-icon>autorenew</mat-icon>
+                                </button>
+                            </div>
+                            <div class="vacancy">
+                                <h5 class="title_vacancy">Vagas: <span  *ngIf="card.vagas">{{card.vagas}}</span></h5>
+                                <button class="vacancy_btn"  *ngIf="!card.vagas" (click)="openModal(card,'change','vagas')" mat-button color="primary" >
+                                    <span>Adicionar</span>
+                                    <mat-icon>add</mat-icon>
+                                </button>
+                                <button class="vacancy_btn"  *ngIf="card.vagas" (click)="openModal(card,'change','vagas')" mat-button color="primary" >
                                     <mat-icon>autorenew</mat-icon>
                                 </button>
                             </div>

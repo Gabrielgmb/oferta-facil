@@ -8,7 +8,7 @@ import { PROFESSORES } from 'src/app/consts/professores';
 import { SEMESTRES, HORARIO, DIAS } from 'src/app/consts/consts';
 import { Professor } from 'src/app/model/professor.model';
 import { SALAS } from 'src/app/consts/salas';
-import { Sala } from 'src/app/model/sala.model';
+import { Horario } from 'src/app/model/horario.model';
 
 @Component({
   selector: 'app-grid',
@@ -55,15 +55,13 @@ export class GridComponent implements OnInit {
   }
 
   grab(card:Card) {
-    if(this.hold){
+    if(this.hold&&this.hold.id==card.id){
       this.hold = undefined;
     }else{
-      this.hold = undefined;
       if(card.horarios.length*2 < card.diciplina.hours){
         this.hold = card;
       }
     }
-
   }
 
   drop(data:any,turma:any) {
@@ -71,59 +69,50 @@ export class GridComponent implements OnInit {
       delete data['card'];
       this.hold.horarios.push(data);
       this.tableService.addTime(this.hold);
-      this.hold = undefined;
+      if(this.hold.horarios.length*2 >= this.hold.diciplina.hours){
+        this.hold = undefined;
+      }
     }
-
   }
 
-  changeTeacher(card:Card,type:string,item:string){
-    
+  removeTime(date:any) {
+
+    const index = date.card.horarios.findIndex((horario:Horario)=>date.dia==horario.dia && date.turno==horario.turno &&  date.hora==horario.hora);
+    date.card.horarios.splice(index,1);
+    this.tableService.removeTime(date.card)
+  }
+
+  openModal(card:Card,type:string,item:string){
     const dialogRef = this.dialog.open(DialogSelect, {
       width: '300px',
       data: {
-        professores:card.professores,
+        card:card,
         type:type,
         item:item
-      },
-      
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.hold = undefined;
-        if(type=='add'){
-          card.professores.push(result)
-          this.tableService.changeTeacher(card)
-        }else if(type=='sub'){
-          const index = card.professores.findIndex(professor=>professor.id==result.id);
-          card.professores.splice(index,1);
-          this.tableService.changeTeacher(card)
-        }
       }
     });
-  }
-
-  changeRoom(card:Card,type:string,item:string){
-    
-    const dialogRef = this.dialog.open(DialogSelect, {
-      width: '300px',
-      data: {
-        professores:card.professores,
-        type:type,
-        item:item
-      },
-      
-    });
     dialogRef.afterClosed().subscribe(result => {
-      this.hold = undefined;
       if(result){
-        if(type=='add'){
+        if(item=='sala'){
           card.sala=result
           this.tableService.changeRoom(card)
+        }else if(item=='professor'){
+          if(type=='add'){
+            card.professores.push(result)
+            this.tableService.changeTeacher(card)
+          }else if(type=='sub'){
+            const index = card.professores.findIndex(professor=>professor.id==result.id);
+            card.professores.splice(index,1);
+            this.tableService.changeTeacher(card)
+          }
+        }else if(item=='vagas'){
+          card.vagas=result
+          this.tableService.changeVacancy(card)
         }
       }
     });
   }
+
 }
 @Component({
   selector: 'dialog-select',
@@ -139,19 +128,19 @@ export class DialogSelect implements OnInit{
   ) {
 
   }
-
   ngOnInit(): void {
     console.log(this.data)
     if(this.data.item=='professor')
       this.setTeacherSelect();
     else if(this.data.item=='sala')
       this.setRoomSelect();
-    
+    else if(this.data.item=='vagas')
+      this.setVagasSelect();
   }
   setTeacherSelect(): void {
     if(this.data.type=='add'){
       this.lista = PROFESSORES.filter((professor:Professor)=>{
-        const result = this.data.professores.some((injectProfessor:Professor)=> injectProfessor.id==professor.id);
+        const result = this.data.card.professores.some((injectProfessor:Professor)=> injectProfessor.id==professor.id);
         if(result){
           return false;
         }else
@@ -159,17 +148,24 @@ export class DialogSelect implements OnInit{
       });
       console.log(this.lista)
     }else if(this.data.type=='sub'){
-      this.lista = this.data.professores;
+      this.lista = this.data.card.professores;
     }
     this.lista.sort((a, b) => a.name.localeCompare(b.name))
   }
 
   setRoomSelect(): void {
-    if(this.data.type=='add'){
-      this.lista = SALAS;
-      this.lista.sort((a, b) => a.name.localeCompare(b.name))
-    }
+    this.lista = SALAS;
+    this.lista.sort((a, b) => a.name.localeCompare(b.name))
   }
+
+  setVagasSelect(): void {
+    this.lista = SALAS;
+    this.selecionado = this.data.card.vagas;
+    this.lista.sort((a, b) => a.name.localeCompare(b.name))
+    console.log(this.selecionado)
+  }
+
+
 
   onNoClick(): void {
     this.dialogRef.close();

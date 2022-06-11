@@ -10,6 +10,7 @@ export class Card{
     turma:string;
     conflitos:Array<any>;
     sala:Sala;
+    vagas:number;
 
     constructor(diciplina: Diciplina, turma:string){
         this.id = turma+diciplina.code;

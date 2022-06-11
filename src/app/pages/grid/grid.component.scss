@@ -37,12 +37,20 @@
   }
   .categories-item {  
     background-color: #DDD;  
-    cursor:move;                    
+    cursor:move;       
+    position: relative; 
+    .remove_icon{
+      position: absolute;
+      color: red;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }            
     .inner{
       width:100%;
       min-height: 5rem;
-      text-align: center;
       font-size: 14px;
+      padding-top: 25px;
       .title_card{
         margin: 0;
         margin-bottom: 5px;
@@ -53,7 +61,7 @@
         margin-bottom: 5px;
         font-weight: normal;
       }
-      .vacancy_card{
+      .room_name{
         margin: 0;
         font-size: 14px;
       }
@@ -75,6 +83,7 @@
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap; 
+    align-items: start;
     padding-top: 20px;
     border: 1px solid #666;
     border-top: 0px;
@@ -138,9 +147,6 @@
         .title_room{
           font-size: 16px;
         }
-        .name_teacher{
-          font-size: 14px;
-        }
         .room_btn{
           font-size: 16px;
           padding: 0;
@@ -148,6 +154,22 @@
           line-height: normal;
           min-width: 0;
         }
+      }
+      .vacancy{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 5px;
+      }
+      .title_vacancy{
+        font-size: 16px;
+      }
+      .vacancy_btn{
+        font-size: 16px;
+        padding: 0;
+        margin-left: 5px;
+        line-height: normal;
+        min-width: 0;
       }
     }
     .active{
@@ -207,7 +229,7 @@
     font-weight: normal;
     margin-bottom: 5px;
   }
-  .vacancy_card{
+  .room_name{
     margin: 0;
     font-size: 14px;
   }
