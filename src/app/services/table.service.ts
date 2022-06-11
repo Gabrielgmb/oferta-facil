@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Diciplina } from 'src/app/model/disciplina.model';
 import { Horario } from '../model/horario.model';
 import { Card } from '../model/card.model';
 import { Turma } from '../model/turma.model';

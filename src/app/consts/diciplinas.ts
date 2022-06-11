@@ -7,35 +7,45 @@ export const DICIPLINAS:Diciplina[] = [
         name: 'História do Design',
         hours:4,
         semester:1,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0095',
         name: 'Programação I',
         hours:4,
         semester:1,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0094',
         name: 'Introdução a Sistemas e Mídias Digitais ',
         hours:4,
         semester:1,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0088',
         name: 'Autoração Multimídia I',
         hours:4,
         semester:1,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0089',
         name: 'Desenho I',
         hours:4,
         semester:1,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     //2º Semestre
     {
@@ -43,35 +53,45 @@ export const DICIPLINAS:Diciplina[] = [
         name: 'Cognição e Tecnologias Digitais',
         hours:4,
         semester:2,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0105',
         name: 'Comunicação visual I',
         hours:4,
         semester:2,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0106',
         name: 'Matemática aplicada à multimídia I',
         hours:4,
         semester:2,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0093',
         name: 'Narrativas multimídia',
         hours:4,
         semester:2,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0096',
         name: 'Programação II',
         hours:4,
         semester:2,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     //3º Semestre
     {
@@ -79,35 +99,45 @@ export const DICIPLINAS:Diciplina[] = [
         name: 'Interação Humano-Computador I',
         hours:4,
         semester:3,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0109',
         name: 'Introd. a Cibercultura',
         hours:4,
         semester:3,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0092',
         name: 'Projeto Integrado I',
         hours:4,
         semester:3,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0097',
         name: 'Autoração Multimídia II',
         hours:4,
         semester:3,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0015',
         name: 'Design de Interfaces Gráficas',
         hours:4,
         semester:3,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     //4º Semestre
     {
@@ -115,49 +145,63 @@ export const DICIPLINAS:Diciplina[] = [
         name: 'Metodologia de pesquisa científica',
         hours:4,
         semester:4,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0030',
         name: 'Análise e projeto de sistemas',
         hours:4,
         semester:4,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0098',
         name: 'Desenho II',
         hours:4,
         semester:4,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0033',
         name: 'Estrutura de dados',
         hours:4,
         semester:4,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0086',
         name: 'Fotografia digital',
         hours:4,
         semester:4,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0037',
         name: 'Redes de computadores',
         hours:4,
         semester:4,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0090',
         name: 'Semiótica aplicada',
         hours:4,
         semester:4,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     //5º Semestre
     {
@@ -165,77 +209,99 @@ export const DICIPLINAS:Diciplina[] = [
         name: 'Design de Som',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0055',
         name: 'Engenharia de Software',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0110',
         name: 'Comunicação Visual II',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0099',
         name: 'Banco de Dados I',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0113',
         name: 'Lab. de criatividade',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0130',
         name: 'Design Emocional',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0017',
         name: 'Programação Orientada a Objetos',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0016',
         name: 'Linguagem Audiovisual',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0023',
         name: 'Design de Jogos',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0057',
         name: 'Concepção de cenários e de personagens',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     {
         code:'SMD0053',
         name: 'Programação pra Jogos',
         hours:4,
         semester:5,
-        nature:'obrigatoria'
+        nature:'obrigatoria',
+        unit:1,
+        track:'midias',
     },
     
 ]

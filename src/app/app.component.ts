@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TableService } from 'src/app/services/table.service';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,13 @@ import { TableService } from 'src/app/services/table.service';
 export class AppComponent implements OnInit {
   title = 'smd-management';
   constructor(
-    private tableService :TableService
+    private tableService :TableService,
+    private dataService :DataService
     ) {
-      this.tableService.init();
+      this.dataService.init().then(succes=>{
+        this.tableService.init();
+      });
+
    }
 
   ngOnInit(): void {

@@ -4,4 +4,6 @@ export class Diciplina{
     hours:number;
     semester:number;
     nature:string;
+    unit:any;
+    track:string;
 }
