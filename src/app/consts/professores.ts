@@ -1,235 +1,237 @@
-export const PROFESSORES = [
+import { Professor } from "../model/professor.model";
+
+export const PROFESSORES:Professor[] = [
     {
         id:'0001',
         name: 'Adriano Anunciação Oliveira',
-        disabled:false,
+        occupation:'none',
     },  
     {
         id:'0002',
         name: 'Alysson Diniz dos Santos',
-        disabled:false,
+        occupation:'gestor',
     }, 
     {
         id:'0003',
         name: 'Andrea Pinheiro Paiva Cavalcante',
-        disabled:false,
+        occupation:'pos',
     }, 
     {
         id:'0004',
         name: 'Andrei Bosco Bezerra Torres ',
-        disabled:false,
+        occupation:'none',
     }, 
     {
         id:'0005',
         name: 'Antônio José Melo Leite Júnior',
-        disabled:false,
+        occupation:'none',
     },    
     {
         id:'0006',
         name: 'Carlos Diego Andrade de Almeida',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0007',
         name: 'Carlos Eduardo Brito Novais',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0008',
         name: 'Cátia Luzia Oliveira da Silva',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0009',
         name: 'Clemilson Costa dos Santos',
-        disabled:false,
+        occupation:'pos',
     },
     {
         id:'0010',
         name: 'Edgar Marçal de Barros Filho',
-        disabled:false,
+        occupation:'gestor',
     },
     {
         id:'0011',
         name: 'Eduardo Santos Junqueira Rodrigues',
-        disabled:false,
+        occupation:'pos',
     },
     {
         id:'0012',
         name: 'Ernesto Trajano de Lima',
-        disabled:false,
+        occupation:'gestor',
     },
     {
         id:'0013',
         name: 'Fernando Lincoln Carneiro Leão Mattos',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0014',
         name: 'Francisco Herbert Lima Vasconcelos',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0015',
         name: 'Gabriel Antoine Louis Paillard',
-        disabled:false,
+        occupation:'gestor',
     },
     {
         id:'0016',
         name: 'Glaudiney Moreira Mendonça Junior',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0017',
         name: 'George Allan Menezes Gomes',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0018',
         name: 'Georgia da Cruz Pereira',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0019',
         name: 'Henrique Barbosa Silva',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0020',
         name: 'Henrique Sergio Lima Pequeno',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0021',
         name: 'Inga Freire Saboia',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0022',
         name: 'Ismael Pordeus Bezerra Furtado',
-        disabled:false,
+        occupation:'none',
     },
     {
         id:'0023',
         name: 'José Aires de Castro Filho',
-        disabled:false,
+        occupation:'pos',
     },
     {
         id:'0024',
         name: 'José Gilvan Rodrigues Maia',
-        disabled:false,
+        occupation:'pos',
     },
     {
         id:'0025',
         name: 'Leonardo Oliveira Moreira',
-        disabled:false,
+        occupation:'pos',
     },
     {
         id:'0026',
         name: 'Levi Bayde Ribeiro',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0027',
         name: 'Liandro Roger Memória Machado',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0028',
         name: 'Luciana de Lima',
-        disabled:false,
+        occupation:'pos',
 
     },
     {
         id:'0029',
         name: 'Mara Franklin Bonates',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0030',
         name: 'Maria de Fátima Costa de Souza',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0031',
         name: 'Leonília Gabriela Bandeira de Souza',
-        disabled:false,
+        occupation:'substituto',
 
     },
     {
         id:'0032',
         name: 'Matheus Rodrigo Serafim Rodrigues',
-        disabled:false,
+        occupation:'substituto',
 
     },
     {
         id:'0033',
         name: 'Mauro Cavalcante Pequeno',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0034',
         name: 'Natal Anacleto Chicca Junior',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0035',
         name: 'Neil Armstrong Rezende',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0036',
         name: 'Priscila Barros David',
-        disabled:false,
+        occupation:'pos',
 
     },
     {
         id:'0037',
         name: 'Rafael Augusto Ferreira do Carmo',
-        disabled:false,
+        occupation:'gestor',
 
     },
     {
         id:'0038',
         name: 'Raquel Santiago Freire',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0039',
         name: 'Ricardo Brauner dos Santos',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0040',
         name: 'Robson Carlos Loureiro',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0041',
         name: 'Ticiana Linhares Coelho da Silva',
-        disabled:false,
+        occupation:'pos',
 
     },
     {
         id:'0042',
         name: 'Wellington Wagner Ferreira Sarmento',
-        disabled:false,
+        occupation:'none',
 
     },
     {
         id:'0043',
         name: 'Windson Viana de Carvalho',
-        disabled:false,
+        occupation:'pos',
 
     },
 

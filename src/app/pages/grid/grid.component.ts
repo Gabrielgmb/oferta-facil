@@ -4,8 +4,11 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import { Card } from 'src/app/model/card.model';
 import { Table } from 'src/app/model/table.model';
 import { TableService } from 'src/app/services/table.service';
-import { PROFESSORES } from 'src/app/consts/professores'; 
-import { SEMESTRES, HORARIO } from 'src/app/consts/consts';
+import { SEMESTRES, HORARIO, DIAS } from 'src/app/consts/consts';
+import { Professor } from 'src/app/model/professor.model';
+import { Horario } from 'src/app/model/horario.model';
+import { DataService } from 'src/app/services/data.service';
+
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
@@ -16,6 +19,7 @@ export class GridComponent implements OnInit {
   table: Table;
   semesters=SEMESTRES;
   hours=HORARIO;
+  days=DIAS;
   displayedColumns: string[] = ['Segunda', 'Terca', 'Quarta', 'Quinta','Sexta'];
   constructor(
     private dialog: MatDialog,
@@ -41,8 +45,7 @@ export class GridComponent implements OnInit {
   
   switch(event: CdkDragDrop<any>) {
     let previousItem = event.previousContainer.data;
-    let actualItem = event.container.data; 
-    console.log(previousItem,actualItem)  
+    let actualItem = event.container.data;   
     if(!actualItem.card)
       this.tableService.changeEmptyTime(previousItem,actualItem);
     else
@@ -51,60 +54,114 @@ export class GridComponent implements OnInit {
   }
 
   grab(card:Card) {
-    this.hold = card;
+    if(this.hold&&this.hold.id==card.id){
+      this.hold = undefined;
+    }else{
+      if(card.horarios.length*2 < card.diciplina.hours){
+        this.hold = card;
+      }
+    }
   }
 
   drop(data:any,turma:any) {
     if(this.hold && this.hold.turma==turma && !data.card){
       delete data['card'];
-      this.hold.local.push(data);
+      this.hold.horarios.push(data);
       this.tableService.addTime(this.hold);
-      this.hold = undefined;
+      if(this.hold.horarios.length*2 >= this.hold.diciplina.hours){
+        this.hold = undefined;
+      }
     }
-
   }
 
-  addTeacher(card:Card){
-    const dialogRef = this.dialog.open(DialogSelect, {
-      width: '250px',
-    });
+  removeTime(date:any) {
 
+    const index = date.card.horarios.findIndex((horario:Horario)=>date.dia==horario.dia && date.turno==horario.turno &&  date.hora==horario.hora);
+    date.card.horarios.splice(index,1);
+    this.tableService.removeTime(date.card)
+  }
+
+  openModal(card:Card,type:string,item:string){
+    const dialogRef = this.dialog.open(DialogSelect, {
+      width: '300px',
+      data: {
+        card:card,
+        type:type,
+        item:item
+      }
+    });
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        card.professores.push(result)
-        this.tableService.changeTeacher(card)
+        if(item=='sala'){
+          card.sala=result
+          this.tableService.changeRoom(card)
+        }else if(item=='professor'){
+          if(type=='add'){
+            card.professores.push(result)
+            this.tableService.changeTeacher(card)
+          }else if(type=='sub'){
+            const index = card.professores.findIndex(professor=>professor.id==result.id);
+            card.professores.splice(index,1);
+            this.tableService.changeTeacher(card)
+          }
+        }else if(item=='vagas'){
+          card.vagas=result
+          this.tableService.changeVacancy(card)
+        }
       }
     });
   }
 
-  removeTeacher(card:Card){
-    const dialogRef = this.dialog.open(DialogSelect, {
-      width: '250px',
-      data: card.professores,
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        const index = card.professores.findIndex(professor=>professor.id==result.id);
-        card.professores.splice(index,1);
-        this.tableService.changeTeacher(card)
-      }
-    });
-  }
 }
-
 @Component({
   selector: 'dialog-select',
   templateUrl: 'dialog-select.html',
+  styleUrls: ['./dialog-select.scss']
 })
-export class DialogSelect {
-  teachers=PROFESSORES;
-  selected:any;
+export class DialogSelect implements OnInit{
+  lista:Array<any>;
+  selecionado:any;
   constructor(
     public dialogRef: MatDialogRef<DialogSelect>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private dataService :DataService
   ) {
+
   }
+  ngOnInit(): void {
+    if(this.data.item=='professor')
+      this.setTeacherSelect();
+    else if(this.data.item=='sala')
+      this.setRoomSelect();
+    else if(this.data.item=='vagas')
+      this.setVagasSelect();
+  }
+  setTeacherSelect(): void {
+    if(this.data.type=='add'){
+      this.lista = this.dataService.getProfessores().filter((professor:Professor)=>{
+        const result = this.data.card.professores.some((injectProfessor:Professor)=> injectProfessor.id==professor.id);
+        if(result){
+          return false;
+        }else
+          return true
+      });
+    }else if(this.data.type=='sub'){
+      this.lista = this.data.card.professores;
+    }
+    this.lista.sort((a, b) => a.name.localeCompare(b.name))
+  }
+
+  setRoomSelect(): void {
+    this.lista = this.dataService.getSalas();
+    this.lista.sort((a, b) => a.name.localeCompare(b.name))
+  }
+
+  setVagasSelect(): void {
+    this.selecionado = this.data.card.vagas;
+    this.lista.sort((a, b) => a.name.localeCompare(b.name))
+  }
+
+
 
   onNoClick(): void {
     this.dialogRef.close();

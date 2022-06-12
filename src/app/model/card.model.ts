@@ -1,18 +1,23 @@
-import { Local } from "./local.model";
+import { Horario } from "./horario.model";
 import { Diciplina } from "./disciplina.model";
 import { Professor } from "./professor.model";
+import { Sala } from "./sala.model";
 export class Card{
     id:string;
     diciplina:Diciplina;
     professores:Array<Professor>;
-    local:Array<Local>;
+    horarios:Array<Horario>;
     turma:string;
+    conflitos:Array<any>;
+    sala:Sala;
+    vagas:number;
 
     constructor(diciplina: Diciplina, turma:string){
         this.id = turma+diciplina.code;
         this.diciplina = diciplina;
         this.turma = turma;
         this.professores =[];
-        this.local = []
+        this.horarios = [];
+        this.conflitos = [];
     }
 }
