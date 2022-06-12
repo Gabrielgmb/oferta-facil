@@ -1,0 +1,76 @@
+import { Sala } from "../model/sala.model";
+
+export const SALAS:Sala[] = [
+    {
+        id:'001',
+        name: 'Sala 1'
+    },  
+    {
+        id:'002',
+        name: 'Sala 2'
+    },  
+    {
+        id:'003',
+        name: 'Sala 3'
+    },  
+    {
+        id:'004',
+        name: 'Sala 4'
+    },  
+    {
+        id:'005',
+        name: 'Sala 5'
+    },  
+    {
+        id:'006',
+        name: 'Lab. 1'
+    }, 
+    {
+        id:'007',
+        name: 'Lab. 2'
+    },
+    {
+        id:'008',
+        name: 'Lab. 3'
+    },
+    {
+        id:'009',
+        name: 'Lab. 4'
+    },
+    {
+        id:'010',
+        name: 'Lab. 5'
+    },
+    {
+        id:'011',
+        name: 'Lab. 6'
+    },
+    {
+        id:'012',
+        name: 'Lab P&D1'
+    },
+    {
+        id:'013',
+        name: 'Ateliê'
+    },
+    {
+        id:'014',
+        name: 'Lab. Audiovisual'
+    },
+    {
+        id:'015',
+        name: 'Lab. Jogos'
+    },
+    {
+        id:'016',
+        name: 'Lab. Tecnodocência'
+    },
+    {
+        id:'017',
+        name: 'Sala de estudos pós-graduação'
+    },
+    {
+        id:'018',
+        name: 'Sala dos Professores'
+    }, 
+]
