@@ -13,14 +13,13 @@ export class AppComponent implements OnInit {
     private tableService :TableService,
     private dataService :DataService
     ) {
-      this.dataService.init().then(succes=>{
-        this.tableService.init();
-      });
-
    }
 
   ngOnInit(): void {
-
+    this.dataService.init().then(success=>{
+      console.log('teste')
+      this.tableService.init();
+    });
   }
  
 }

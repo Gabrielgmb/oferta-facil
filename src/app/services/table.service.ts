@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+
 import { Horario } from '../model/horario.model';
 import { Card } from '../model/card.model';
 import { Turma } from '../model/turma.model';
-import { DICIPLINAS } from '../consts/diciplinas';
-import { TURMAS } from '../consts/turmas';
 import { Table } from '../model/table.model';
 import { Professor } from '../model/professor.model';
+
 import { HORARIO } from '../consts/consts';
-import { PROFESSORES } from '../consts/professores';
-import { SALAS } from '../consts/salas';
+
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableService {
-  private turmas = TURMAS;
   private cards: Array<Card>;
   private baseTable:Array<any>;
   private baseTeacherTable:Array<any>;
   private baseRoomTable:Array<any>;
   private table:Table;
   private tableSubject: Subject<Table>;
-  constructor() {
+  constructor( 
+    private dataService :DataService
+    ) {
     this.tableSubject = new Subject<Table>();
     this.baseTable = [];
     this.baseRoomTable = [];
@@ -45,7 +46,7 @@ export class TableService {
 
   //Função que cria a tabela base do diurno e noturno, é usada para definir as posições dos cartões
   private setBaseHourTable(){
-    this.turmas.forEach(turma => {
+    this.dataService.getTurmas().forEach(turma => {
       turma.shift.forEach((shift:number)=>{
         let i =0;
         let rows:any = [[],[]]
@@ -59,7 +60,7 @@ export class TableService {
         }
         turma.rows = turma.rows.concat(rows) 
       })
-      DICIPLINAS.forEach(diciplina => {
+      this.dataService.getDiciplinas().forEach(diciplina => {
         if(diciplina.semester===turma.semester)
           turma.card.push(new Card(diciplina,turma.code))
       });
@@ -70,7 +71,7 @@ export class TableService {
 
   //Função que cria a tabela base dos professores
   private setBaseTeacherTable(){
-    this.baseTeacherTable =PROFESSORES.map((professor:Professor)=>{
+    this.baseTeacherTable =this.dataService.getProfessores().map((professor:Professor)=>{
       return {professor:professor,diciplinas:[]}
     });
     this.setAllTeacherTable();
@@ -78,7 +79,7 @@ export class TableService {
 
   private setBaseRoomTable(){
     let base:any =[];
-    SALAS.forEach((sala:any)=>{
+    this.dataService.getSalas().forEach((sala:any)=>{
       let innerSala:any={sala:sala,horas:[]};
       innerSala.horas = HORARIO.map((hora:any)=>{
         return [];

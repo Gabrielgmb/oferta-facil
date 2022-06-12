@@ -4,11 +4,10 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import { Card } from 'src/app/model/card.model';
 import { Table } from 'src/app/model/table.model';
 import { TableService } from 'src/app/services/table.service';
-import { PROFESSORES } from 'src/app/consts/professores'; 
 import { SEMESTRES, HORARIO, DIAS } from 'src/app/consts/consts';
 import { Professor } from 'src/app/model/professor.model';
-import { SALAS } from 'src/app/consts/salas';
 import { Horario } from 'src/app/model/horario.model';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-grid',
@@ -125,11 +124,11 @@ export class DialogSelect implements OnInit{
   constructor(
     public dialogRef: MatDialogRef<DialogSelect>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private dataService :DataService
   ) {
 
   }
   ngOnInit(): void {
-    console.log(this.data)
     if(this.data.item=='professor')
       this.setTeacherSelect();
     else if(this.data.item=='sala')
@@ -139,14 +138,13 @@ export class DialogSelect implements OnInit{
   }
   setTeacherSelect(): void {
     if(this.data.type=='add'){
-      this.lista = PROFESSORES.filter((professor:Professor)=>{
+      this.lista = this.dataService.getProfessores().filter((professor:Professor)=>{
         const result = this.data.card.professores.some((injectProfessor:Professor)=> injectProfessor.id==professor.id);
         if(result){
           return false;
         }else
           return true
       });
-      console.log(this.lista)
     }else if(this.data.type=='sub'){
       this.lista = this.data.card.professores;
     }
@@ -154,15 +152,13 @@ export class DialogSelect implements OnInit{
   }
 
   setRoomSelect(): void {
-    this.lista = SALAS;
+    this.lista = this.dataService.getSalas();
     this.lista.sort((a, b) => a.name.localeCompare(b.name))
   }
 
   setVagasSelect(): void {
-    this.lista = SALAS;
     this.selecionado = this.data.card.vagas;
     this.lista.sort((a, b) => a.name.localeCompare(b.name))
-    console.log(this.selecionado)
   }
 
 
