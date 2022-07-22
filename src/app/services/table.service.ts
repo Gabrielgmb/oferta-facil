@@ -207,13 +207,23 @@ export class TableService {
   //Função responsável por criar a tabela de todos os professores
   private setAllTeacherTable(){
     const base = JSON.parse(JSON.stringify(this.baseTeacherTable));
+    console.log(base)
+    console.log(this.cards)
     this.table.allTeachers = base.map((item:any)=>{
       this.cards.forEach((card:Card)=>{
         if(card.professores.some((professor:Professor)=> professor.id==item.professor.id)){
-          item.diciplinas.push(
-            {diciplina:card.diciplina,
-              turno:card.horarios[0].turno!=2?'diurno':'noturno'
-            });
+          if(card.horarios.length>0){
+            item.diciplinas.push(
+              {diciplina:card.diciplina,
+                turno:card.horarios[0].turno!=2?'diurno':'noturno'
+              });
+          }else{
+            item.diciplinas.push(
+              {diciplina:card.diciplina,
+                turno:''
+              });
+          }
+
         }
       });
       return item;
