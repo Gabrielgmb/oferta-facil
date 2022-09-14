@@ -1,6 +1,6 @@
-# SmdManagement
+# Oferta facil
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.10.
+A alocação das ofertas acadêmicas não é um processo simples ou rápido. A cada semestre as coordenações de curso e chefias de departamento se deparam com a necessidade fazer a alocação das salas e professores para suprir a necessidade de turmas dos diferentes cursos existentes, respeitando as diferentes restrições e as demandas do corpo discente. Este projeto tem como objetivo solucionar tal problema através da aplicação web Oferta Fácil que foi criado com o [Angular CLI](https://github.com/angular/angular-cli) versão 12.2.10.
 
 ## Development server
 
