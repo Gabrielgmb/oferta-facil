@@ -1,6 +1,6 @@
 # Oferta facil
 
-A alocação das ofertas acadêmicas não é um processo simples ou rápido. A cada semestre as coordenações de curso e chefias de departamento se deparam com a necessidade fazer a alocação das salas e professores para suprir a necessidade de turmas dos diferentes cursos existentes, respeitando as diferentes restrições e as demandas do corpo discente. Este projeto tem como objetivo solucionar tal problema através da aplicação web Oferta Fácil que foi criado com o [Angular CLI](https://github.com/angular/angular-cli) versão 12.2.10.
+A alocação das ofertas acadêmicas não é um processo simples ou rápido. A cada semestre as coordenações de curso e chefias de departamento se deparam com a necessidade fazer a alocação das salas e professores para suprir a necessidade de turmas dos diferentes cursos existentes, respeitando as diferentes restrições e as demandas do corpo discente. A aplicação web Oferta Fácil, desenvolida com o [Angular CLI](https://github.com/angular/angular-cli) versão 12.2.10 tem como objetivo solucionar tal problema. Criado e desenvolvido por Gabriel de Melo Bastos sob orientação do Prof. Dr. Rafael Augusto Ferreira do Carmo para o trabalho de conclusão de curso O PROCESSO DE DESENVOLVIMENTO E DESIGN DA APLICAÇÃO WEB OFERTA FÁCIL PARA ALOCAÇÃO DE TURMAS DO CURSO DE SISTEMAS E MÍDIAS DIGITAIS.
 
 ## Servidor de desenvolvimento
 
