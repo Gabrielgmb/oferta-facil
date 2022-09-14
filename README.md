@@ -2,29 +2,17 @@
 
 A alocação das ofertas acadêmicas não é um processo simples ou rápido. A cada semestre as coordenações de curso e chefias de departamento se deparam com a necessidade fazer a alocação das salas e professores para suprir a necessidade de turmas dos diferentes cursos existentes, respeitando as diferentes restrições e as demandas do corpo discente. Este projeto tem como objetivo solucionar tal problema através da aplicação web Oferta Fácil que foi criado com o [Angular CLI](https://github.com/angular/angular-cli) versão 12.2.10.
 
-## Development server
+## Servidor de desenvolvimento
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Use `ng serve` para um servidor local de teste. Navegue para `http://localhost:4200/`. A aplicação automaticamente recarregará caso algum dos arquivos fontes sejam alterados.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Use `ng build` para construir o projeto. Os artefatos da construlção serão armazenados na pasta `dist/`.
 
-## Running unit tests
+## Unidade de teste
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Use `ng test` para executar as unidades de teste via [Karma](https://karma-runner.github.io).
 
 Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
 
